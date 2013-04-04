@@ -1,0 +1,46 @@
+div.cartographie
+{
+	margin:0 0 15px 0;
+	padding:0;
+	border:none;
+}
+
+div.cartographie *, div.cartographie img
+{
+	border:none;
+}
+
+div.cartographie a, div.cartographie a:link, div.cartographie a:active, div.cartographie a:visited
+{
+	text-decoration:none;
+}
+
+div.cartographie .olControlAttribution
+{
+	position:absolute;
+	right:6px;
+	bottom:6px;
+}
+
+div.cartographie .olControlAttribution
+{
+	color:grey;
+	font-style:normal;
+	font-size:11px;
+	font-family:"Trebuchet MS";
+	text-decoration:none;
+}
+
+div.cartographie .olControlAttribution a, .olControlAttribution a:link, .olControlAttribution a:active, .olControlAttribution a:visited
+{
+	color:grey;
+	font-style:normal;
+	font-size:11px;
+	font-family:"Trebuchet MS";
+	text-decoration:none;
+}
+
+div.cartographie .olControlAttribution a:hover
+{
+	text-decoration:underline;
+}
