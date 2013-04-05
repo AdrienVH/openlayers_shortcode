@@ -49,11 +49,6 @@ function openlayers_shortcode($attributs)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////// HTML + JS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$string = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
-	if($id <= 1 OR !is_numeric($id)) // Si $id vaut bien 1 ou si on a un doute (inf. à 1 ? non numérique ?)
-	{
-		$string .= '<script src="'.$path.'/js/openlayers.js"></script>';
-		$string .= '<script src="'.$path.'/js/wax.ol.js"></script>';
-	}
 	$string .= '<script>';
 	$string .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
 	$string .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
@@ -325,6 +320,33 @@ function openlayers_shortcode($attributs)
 		return null;
 	}
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function enqueue_librairies_js()
+{
+	global $post; // On utilise la variable $post correspondante au post ou à la page où l'on a inséré le shortcode
+	$return = false;
+	if($post)
+	{
+		$resultats = array();
+		$pattern = get_shortcode_regex();
+		preg_match_all('/'.$pattern.'/s', $post->post_content, $resultats);
+		foreach($resultats[2] as $shortcode)
+		{
+			if($shortcode == 'openlayers')
+			{
+				$path = plugins_url().'/openlayers_shortcode/js';
+				wp_enqueue_script('openlayers_js', $path.'/openlayers.js', null, null, false);
+				wp_enqueue_script('wax_js', $path.'/wax.ol.js', null, null, false);
+				$return = true;
+				break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
+			}
+		}
+	}
+	return $return;
+}
+add_action('wp_enqueue_scripts','enqueue_librairies_js');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////// HOOKS ACTIVATION + UNINSTALL
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
