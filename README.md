@@ -3,11 +3,13 @@
 
 "OpenLayers Shortcode" est un plugin WordPress permettant d'intégrer une ou plusieurs cartes interactives à vos pages et articles Wordpress. Ce plugin s'appuie grandement sur la librairie javascript (JS) OpenLayers. Il utilise aussi la librairie javascript Wax, développée par Mapbox.
 
-###NB : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.
+Le shortcode ajouté est : `[openlayers attribut="valeur" attribut="valeur"]`
+
+####NB : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.
 
 ##Langages utilisés
 
-Le gros du plugin est écrit en `PHP`. Ce code `PHP` sert principalement à "pondre" du code `JS`. Quelques lignes `CSS` sont aussi utiles afin de régler quelques soucis de compatibilité avec les feuilles CSS inhérentes à Wordpress.
+Le gros du plugin est écrit en PHP. Ce code PHP sert principalement à "pondre" du code JS selon les attributs renseignés dans le shortcode. Quelques lignes CSS sont aussi utiles afin de régler quelques soucis de compatibilité avec les feuilles CSS inhérentes à Wordpress.
 
 ##Librairies emportées
 
