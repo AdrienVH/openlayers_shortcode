@@ -12,7 +12,7 @@ Le gros du plugin est écrit en PHP. Ce code PHP sert principalement à "pondre"
 
 ##Librairies emportées
 
-Le plugin emporte avec lui deux librairies javascript :
+Le plugin embarque deux librairies javascript :
 
 - OpenLayers 2.12 - http://openlayers.org/
 - Wax 6.4.0 - http://mapbox.com/wax/
