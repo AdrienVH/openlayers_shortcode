@@ -10,7 +10,7 @@ Version: 1.2.2
 require_once('php/ols_functions.php');
 require_once('php/ols_admin.php');
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////// CONFIGURATION
+	//////////////////////////////////////////////////////////////////////////////////////////////////////// SHORTCODE
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 add_shortcode('openlayers','openlayers_shortcode');
 function openlayers_shortcode($attributs)
@@ -109,8 +109,8 @@ function openlayers_shortcode($attributs)
 			$extensions = array('gml','xml','geojson','json');
 			if(in_array($extension, $extensions)) // Si cette URL valide présente une extension qui correspond au GML et au GeoJSON
 			{
-				if($extension == 'gml' OR $extension == 'xml'){$format = 'GML';}
-				elseif($extension == 'geojson' OR $extension == 'json'){$format = 'GeoJSON';}
+				if		($extension == 'gml' OR $extension == 'xml'){$format = 'GML';}
+				elseif	($extension == 'geojson' OR $extension == 'json'){$format = 'GeoJSON';}
 				$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:900913"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
 			}
 			else
@@ -137,7 +137,7 @@ function openlayers_shortcode($attributs)
 			$string .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$wkt.'"),{label:"'.$p_label.'"});';
 			$string .= 'couche'.$id.'.addFeatures(entite);';
 		}
-		elseif($champ_lat != '' AND $champ_long != '') // Sinon, si des champs personnalisés sont indiqués pour représenter un point (to-do : tester s'ils sont valables)
+		elseif($champ_lat != '' AND $champ_long != '') // Sinon, si deux champs personnalisés sont indiqués pour représenter un point (to-do : tester s'ils sont valables)
 		{
 			$p_long = get_post_meta($id_this,$champ_long,true);
 			$p_lat = get_post_meta($id_this,$champ_lat,true);
@@ -161,7 +161,7 @@ function openlayers_shortcode($attributs)
 		else // Sinon on renvoie une erreur car il n'y a rien à représenter
 		{
 			$erreur = true;
-			$message .= '<br />- Les attributs lat/long ou champ_lat/champ_long n\'ont pas été correctement renseignés';
+			$message .= '<br />- Les attributs n\'ont pas été correctement renseignés : aucune source de données valide n\'a été trouvée.';
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ function openlayers_shortcode($attributs)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////// CENTRAGE
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($center_long != '' AND $center_lat != '')
+	if($center_long != '' AND $center_lat != '') // to-do : tester si numérique compris entre -90 et 90
 	{
 		$string .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
 		$string .= 'map'.$id.'.setCenter(center,'.$zoom.');';
