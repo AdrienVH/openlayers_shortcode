@@ -5,7 +5,7 @@
 add_action('wp_enqueue_scripts','enqueue_ols_js');
 function enqueue_ols_js()
 {
-	global $post; // On utilise la variable $post correspondante au post ou à la page où l'on a inséré le shortcode
+	global $post; // On utilise la variable $post générée par WordPress
 	$return = false;
 	if($post)
 	{
@@ -19,6 +19,33 @@ function enqueue_ols_js()
 				$path = plugins_url().'/openlayers_shortcode/js';
 				wp_enqueue_script('ols_js_openlayers', $path.'/openlayers.js', null, null, false);
 				wp_enqueue_script('ols_js_wax', $path.'/wax.ol.js', null, null, false);
+				$return = true;
+				break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
+			}
+		}
+	}
+	return $return;
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////// CHARGEMENT UNIQUE DES FEUILLES CSS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//add_action('wp_enqueue_styles','enqueue_ols_css'); // bug : désactivé car le chargement se fait dans le header alors qu'il faudrait charger dans le footer
+function enqueue_ols_css()
+{
+	global $post; // On utilise la variable $post générée par WordPress
+	$return = false;
+	if($post)
+	{
+		$resultats = array();
+		$pattern = get_shortcode_regex();
+		preg_match_all('/'.$pattern.'/s', $post->post_content, $resultats);
+		foreach($resultats[2] as $shortcode)
+		{
+			if($shortcode == 'openlayers')
+			{
+				$path = plugins_url().'/openlayers_shortcode/css';
+				wp_enqueue_style('ols_css_carto', $path.'/carto.css', null, null, true);
+				wp_enqueue_style('ols_css_admin', $path.'/admin.css', null, null, true);
 				$return = true;
 				break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
 			}
