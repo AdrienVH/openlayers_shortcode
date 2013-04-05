@@ -5,7 +5,7 @@
 
 Le shortcode ajouté est : `[openlayers attribut="valeur" attribut="valeur"]`
 
-####NB : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.
+###NB : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.
 
 ##Langages utilisés
 
