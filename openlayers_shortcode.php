@@ -523,13 +523,6 @@ function ols_add_menu()
 						echo '<p>Shortcode lié : [openlayers attr="val"]</p>';
 						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.1.2.2.zip">1.2.2</a> (31/07/2012)</p>';
 						echo '<p>Librairies JS : <a href="http://openlayers.org/" target="_blank">Openlayers</a> (2.12) + <a href="http://mapbox.com/wax/" target="_blank">Wax</a> (6.4.0)</p>';
-						echo '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
-							echo '<p>';
-								echo '<input type="hidden" name="cmd" value="_s-xclick">';
-								echo '<input type="hidden" name="hosted_button_id" value="7SX9AHUJEUBDW">';
-								echo '<input type="submit" name="submit" value="Faire un don">';
-							echo '</p>';
-						echo '</form>';
 					echo '</div>';
 				echo '</div>';
 				echo '<div class="postbox">'; // Bloc "Auteur"
