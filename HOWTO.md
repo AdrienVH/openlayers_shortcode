@@ -2,20 +2,22 @@
 
 ##Base : `[openlayers]`
 
-##Fond de carte
+##1. Fond de carte
 
-- [openlayers tiles="osm"] : Fond de carte OpenStreetMpa (OSM)
-- [openlayers tiles="mapquest"] : Fond de carte OSM selon MapQuest
-- [openlayers tiles="mapquest_aerial"] : Photo aérienne selon MapQuest
+- `[openlayers tiles="osm"]` : Fond de carte OpenStreetMpa (OSM)
+- `[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
+- `[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
-##Mode d'affichage
-
-### THIS : le billet ou la page en cours
+##2.a Mode d'affichage "this"
 
 - `[openlayers mode="this"]`
 
-### POSTS, PAGES, ALL : tous les billets, toutes les pages ou les deux à la fois
+##2.b Modes d'affichage "posts", "pages" et "all"
 
 - `[openlayers mode="posts"]`
 - `[openlayers mode="pages"]`
 - `[openlayers mode="all"]`
+
+##3. Reprojection en ESPG:3857
+
+- `[openlayers epsg="2154"]`
