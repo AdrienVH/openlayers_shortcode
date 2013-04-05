@@ -3,9 +3,9 @@
 
 "OpenLayers Shortcode" est un plugin WordPress permettant d'intégrer une ou plusieurs cartes interactives à vos pages et articles Wordpress. Ce plugin s'appuie grandement sur la librairie javascript (JS) OpenLayers. Il utilise aussi la librairie javascript Wax, développée par Mapbox.
 
-Le shortcode ajouté est : `[openlayers attribut="valeur" attribut="valeur"]`
+Le shortcode à utiliser est : `[openlayers attribut="valeur" attribut="valeur"]`
 
-###NB : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.
+**Attention : Ce plugin WordPress n'est pas officiel : il ne dépend pas du projet OpenLayers.**
 
 ##Langages utilisés
 
@@ -22,7 +22,11 @@ Le plugin emporte avec lui deux librairies javascript :
 
 - Personnalisation de l’icône d'un marker, en indiquant l’URL d'une image par exemple
 - Prise en charge de fichiers distants (GeoJSON, GML, etc.), en indiquant l’URL d'un fichier
-- Possibilité d’avoir des données dans d’autres projections, en indiquant un code EPSG
+- Possibilité de charger des données dans d’autres projections que le 900913, en indiquant un code EPSG
 - Amélioration des feuilles et propriétés CSS
 - Refonte du chargement des feuilles et propriétés CSS
 - Intégration d’autres fonds de carte
+
+##Contact
+
+Auteur : Adrien VAN HAMME - contact@adrienvh.fr
