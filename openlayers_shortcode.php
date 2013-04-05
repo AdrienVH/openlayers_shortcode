@@ -53,35 +53,35 @@ function openlayers_shortcode($attributs)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////// HTML + JS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	$string = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
-	$string .= '<script>';
-	$string .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
-	$string .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-	$string .= 'var coucheOSM = new OpenLayers.Layer.OSM();';
-	$string .= 'map'.$id.'.addLayer(coucheOSM);';
+	$output = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
+	$output .= '<script>';
+	$output .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
+	$output .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();';
+	$output .= 'map'.$id.'.addLayer(coucheOSM);';
 	/*if($tiles == 'mapbox') // Fond de carte Mapbox Streets
 	{
-		$string .= 'var coucheMB;';
-		$string .= 'wax.tilejson("http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets.jsonp",function(tilejson){';
-		$string .= 'coucheMB = new wax.ol.connector(tilejson);';
-		$string .= 'map'.$id.'.addLayer(coucheMB);';
-		$string .= '});';
+		$output .= 'var coucheMB;';
+		$output .= 'wax.tilejson("http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets.jsonp",function(tilejson){';
+		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
+		$output .= 'map'.$id.'.addLayer(coucheMB);';
+		$output .= '});';
 	}*/
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
-		$string .= 'var tilesURL = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
-		$string .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles",tilesURL,{attribution:"MapQuest, Open Street Map et leurs contributeurs, CC-BY-SA"});';
-		$string .= 'map'.$id.'.addLayer(coucheMQ);';
+		$output .= 'var tilesURL = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles",tilesURL,{attribution:"MapQuest, Open Street Map et leurs contributeurs, CC-BY-SA"});';
+		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
 	if($tiles == 'mapquest_aerial') // Fond de carte MapQuest Aerial
 	{
-		$string .= 'var tilesURL = ["http://oatile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];';
-		$string .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
-		$string .= 'map'.$id.'.addLayer(coucheMQ);';
+		$output .= 'var tilesURL = ["http://oatile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
+		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
 	// Style des figurés
-	$string .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
-	$string .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+	$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////// MODE THIS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +111,7 @@ function openlayers_shortcode($attributs)
 			{
 				if		($extension == 'gml' OR $extension == 'xml'){$format = 'GML';}
 				elseif	($extension == 'geojson' OR $extension == 'json'){$format = 'GeoJSON';}
-				$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:900913"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:900913"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
 			}
 			else
 			{
@@ -124,18 +124,18 @@ function openlayers_shortcode($attributs)
 			$p_wkt = get_post_meta($id_this,$champ_wkt,true);
 			if($p_wkt != '') // remplacer par args sur meta key pour filtrer
 			{
-				$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-				$string .= 'map'.$id.'.addLayer(couche'.$id.');';
-				$string .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-				$string .= 'couche'.$id.'.addFeatures(entite);';
+				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+				$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+				$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
+				$output .= 'couche'.$id.'.addFeatures(entite);';
 			}
 		}
 		elseif($wkt != '')  // Sinon, on se contente de la notation WKT "en dur" (to-do : tester si le WKT est valide)
 		{
-			$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-			$string .= 'map'.$id.'.addLayer(couche'.$id.');';
-			$string .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$wkt.'"),{label:"'.$p_label.'"});';
-			$string .= 'couche'.$id.'.addFeatures(entite);';
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+			$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$wkt.'"),{label:"'.$p_label.'"});';
+			$output .= 'couche'.$id.'.addFeatures(entite);';
 		}
 		elseif($champ_lat != '' AND $champ_long != '') // Sinon, si deux champs personnalisés sont indiqués pour représenter un point (to-do : tester s'ils sont valables)
 		{
@@ -143,20 +143,20 @@ function openlayers_shortcode($attributs)
 			$p_lat = get_post_meta($id_this,$champ_lat,true);
 			if($p_long != '' AND $p_lat != '') // remplacer par args sur meta key pour filtrer
 			{
-				$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-				$string .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-				$string .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-				$string .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-				$string .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
+				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+				$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
+				$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+				$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+				$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
 			}
 		}
 		elseif($lat != '' AND $long != '') // Sinon, on se contente des coordonnées "en dur" pour représenter un point (to-do : tester si elles sont bien des numériques)
 		{
-			$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-			$string .= 'entite = new OpenLayers.LonLat('.$long.','.$lat.');';
-			$string .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-			$string .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-			$string .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			$output .= 'entite = new OpenLayers.LonLat('.$long.','.$lat.');';
+			$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+			$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+			$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
 		}
 		else // Sinon on renvoie une erreur car il n'y a rien à représenter
 		{
@@ -171,7 +171,7 @@ function openlayers_shortcode($attributs)
 	{
 		if($champ_lat != '' AND $champ_long != '') // Si des champs personnalisés sont bien indiqués (to-do : tester s'ils sont valables)
 		{
-			$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
 			if($mode == 'posts' OR $mode == 'all')
 			{
 				$posts = get_posts(); // to-do : array('meta_key' => 'longitude,latitude')
@@ -194,10 +194,10 @@ function openlayers_shortcode($attributs)
 					$p_wkt = get_post_meta($post->ID,$champ_wkt,true);
 					if($p_wkt != '') // to-do : array('meta_key' => 'wkt')
 					{
-						$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-						$string .= 'map'.$id.'.addLayer(couche'.$id.');';
-						$string .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-						$string .= 'couche'.$id.'.addFeatures(entite);';
+						$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+						$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+						$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
+						$output .= 'couche'.$id.'.addFeatures(entite);';
 					}
 					else
 					{
@@ -205,10 +205,10 @@ function openlayers_shortcode($attributs)
 						$p_lat = get_post_meta($post->ID,$champ_lat,true);
 						if($p_long != '' AND $p_lat != '') // to-do : array('meta_key' => 'longitude,latitude')
 						{
-							$string .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-							$string .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-							$string .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-							$string .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
+							$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
+							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+							$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+							$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
 						}
 						else // Sinon on renvoie une erreur car il n'y a rien à représenter
 						{
@@ -240,10 +240,10 @@ function openlayers_shortcode($attributs)
 					$p_wkt = get_post_meta($post->ID,$champ_wkt,true);
 					if($p_wkt != '') // to-do : array('meta_key' => 'wkt')
 					{
-							$string .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-							$string .= 'map'.$id.'.addLayer(couche'.$id.');';
-							$string .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-							$string .= 'couche'.$id.'.addFeatures(entite);';
+							$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+							$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+							$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
+							$output .= 'couche'.$id.'.addFeatures(entite);';
 					}
 					else
 					{
@@ -251,10 +251,10 @@ function openlayers_shortcode($attributs)
 						$p_lat = get_post_meta($post->ID,$champ_lat,true);
 						if($p_long != '' AND $p_lat != '') // to-do : array('meta_key' => 'longitude,latitude')
 						{
-							$string .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-							$string .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-							$string .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-							$string .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
+							$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
+							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+							$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+							$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
 						}
 						else // Sinon on renvoie une erreur car il n'y a rien à représenter
 						{
@@ -276,45 +276,45 @@ function openlayers_shortcode($attributs)
 		$erreur = true;
 		$message .= '<br />- Le mode que vous avez choisi est inconnu (Valeurs acceptées : "", "this", "posts", "pages" ou "all")';
 	}
-	$string .= 'map'.$id.'.addLayer(couche'.$id.');';
+	$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////// CENTRAGE
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if($center_long != '' AND $center_lat != '') // to-do : tester si numérique compris entre -90 et 90
 	{
-		$string .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-		$string .= 'map'.$id.'.setCenter(center,'.$zoom.');';
+		$output .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+		$output .= 'map'.$id.'.setCenter(center,'.$zoom.');';
 	}
 	else
 	{
-		$string .= 'map'.$id.'.zoomToExtent(couche'.$id.'.getDataExtent());';
+		$output .= 'map'.$id.'.zoomToExtent(couche'.$id.'.getDataExtent());';
 	}
 	if($tiles != 'osm') // Fond de carte
 	{
-		$string .= 'map'.$id.'.removeLayer(coucheOSM);';
+		$output .= 'map'.$id.'.removeLayer(coucheOSM);';
 	}
-	$string .= '</script>';
+	$output .= '</script>';
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CSS
+	///////////////////////////////////////////////////////////////////////////////////////////////////////// FEUILLES CSS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($id <= 1 OR !is_numeric($id)) // Si $id vaut bien 1 ou si on a un doute (inf. à 1 ? non numérique ?)
+	if($id <= 1 OR !is_numeric($id)) // Si $id vaut bien 1 ou si on a un doute (inf. à 1 ? non numérique ?) / to-do : charger une seule fois (cf. ols_functions.php)
 	{
-		$string .= '<style>';
-		$string .= '<!--';
-		$string .= '@import url("'.$path.'/js/theme/default/style.css");';
-		$string .= '@import url("'.$path.'/css/carto.css");';
-		$string .= '-->';
-		$string .= '</style>';
+		$output .= '<style>';
+		$output .= '<!--';
+		$output .= '@import url("'.$path.'/js/theme/default/style.css");';
+		$output .= '@import url("'.$path.'/css/carto.css");';
+		$output .= '-->';
+		$output .= '</style>';
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////// RENDU
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////// OUTPUT
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if($erreur == false) // Si aucune erreur n'a été détectée
 	{
 		if($debug == 'oui') // Si le mode debug est activé
-			return $message.'<br />'.$string;
+			return $output.'<br />'.$message;
 		else
-			return $string;
+			return $output;
 	}
 	elseif($erreur == true AND $debug == 'oui') // Si au moins une erreur a été détectée et que le mode debug est activé
 	{
