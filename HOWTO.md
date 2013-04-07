@@ -14,7 +14,7 @@
 
 - `[openlayers mode="this" lat="..." lng="..."]`
 
-###2.1.2 D'après des coordonnées (ponctuel uniq.) contenues dans un champ personnalisé
+###2.1.2 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
 
 - `[openlayers mode="this" champ_lat="..." champ_long="..."]`
 
@@ -36,13 +36,19 @@
 
 ##2.2 Source de donnée : modes "posts", "pages" ou "all"
 
-- `[openlayers mode="posts"]` : Parcours des articles de votre Wordpress
-- `[openlayers mode="pages"]` : Parcours des pages de votre Wordpress
-- `[openlayers mode="all"]` : Parcours des articles et des pages de votre Wordpress
+Avec ces trois modes, vous pouvez construire une carte avec les données contenues dans des champs personnalisés des articles et/ou des pages de votre WordPress.
 
-###2.2.1 D'après des coordonnées (ponctuel uniq.) contenues dans un champ personnalisé
+- `[openlayers mode="posts"]` : Parcours de tous les articles de votre Wordpress
+- `[openlayers mode="pages"]` : Parcours de toutes les pages de votre Wordpress
+- `[openlayers mode="all"]` : Parcours de tous les articles et toutes les pages de votre Wordpress
+
+###2.2.1 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
+
+Deux attributs doivent être renseignés :
 
 - `[openlayers mode="..." champ_lat="..." champ_long="..."]`
+
+Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
 
 ###2.2.2 D'après des géométries WKT contenues dans un champ personnalisé
 
@@ -54,7 +60,7 @@ Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans 
 
 - `[openlayers epsg="..."]`
 
-Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (ESPG:3857, anciennement 3875 et 900913). Plus d'informations sur la notation ESPG : http://www.spatialreference.org/
+Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (ESPG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation ESPG, consultez le site [spatialreference.org/](http://www.spatialreference.org/).
 
 ##4. Centrage et zoom de la carte
 
