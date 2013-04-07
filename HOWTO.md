@@ -10,57 +10,65 @@
 
 - `[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
 
+Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiquer, sauf si vous avez changé les valeurs par défaut dans l'interface d'administration.
+
 ###2.1.1 D'après des coordonnées (ponctuel uniq.)
 
-- `[openlayers mode="this" lat="..." lng="..."]`
+Deux attributs doivent être renseignés :
+
+`[openlayers lat="..." lng="..."]`
 
 ###2.1.2 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
 
-- `[openlayers mode="this" champ_lat="..." champ_long="..."]`
+Deux attributs doivent être renseignés :
+
+`[openlayers champ_lat="..." champ_long="..."]`
+
+Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
 
 ###2.1.3 D'après la géométrie WKT
 
-- `[openlayers mode="this" wkt="..."]`
+`[openlayers wkt="..."]`
 
 ###2.1.4 D'après la géométrie WKT contenues dans un champ personnalisé
 
-- `[openlayers mode="this" champ_wkt="..."]`
+`[openlayers mode="this" champ_wkt="..."]`
 
 ###2.1.5 D'après l'URL d'un fichier distant
 
-- `[openlayers mode="this" url="..."]`
+`[openlayers url="..."]`
 
 ###2.1.6 D'après l'URL d'un fichier distant contenue dans un champ personnalisé
 
-- `[openlayers mode="this" champ_url="..."]`
+`[openlayers champ_url="..."]`
 
 ##2.2 Source de donnée : modes "posts", "pages" ou "all"
 
-Avec ces trois modes, vous pouvez construire une carte avec les données contenues dans des champs personnalisés des articles et/ou des pages de votre WordPress.
+Avec ces trois modes, vous pouvez construire une carte avec les données contenues dans des champs personnalisés des articles et/ou des pages de votre WordPress :
 
-- `[openlayers mode="posts"]` : Parcours de tous les articles de votre Wordpress
-- `[openlayers mode="pages"]` : Parcours de toutes les pages de votre Wordpress
-- `[openlayers mode="all"]` : Parcours de tous les articles et toutes les pages de votre Wordpress
+`[openlayers mode="posts"]` : Parcours de tous les articles de votre Wordpress
+`[openlayers mode="pages"]` : Parcours de toutes les pages de votre Wordpress
+`[openlayers mode="all"]` : Parcours de tous les articles et toutes les pages de votre Wordpress
 
 ###2.2.1 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
 
 Deux attributs doivent être renseignés :
 
-- `[openlayers mode="..." champ_lat="..." champ_long="..."]`
+`[openlayers mode="..." champ_lat="..." champ_long="..."]`
 
 Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
 
 ###2.2.2 D'après des géométries WKT contenues dans un champ personnalisé
 
-- `[openlayers mode="..." champ_wkt="..."]`
+`[openlayers mode="..." champ_wkt="..."]`
 
 ##3. Reprojection des données à la volée
 
-Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans quelle projection elles sont notées initialement (via le code ESPG de cette projection) :
+Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans quelle projection elles sont notées initialement (via le code EPSG de cette projection) :
 
-- `[openlayers epsg="..."]`
+`[openlayers epsg="..."]`
 
-Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (ESPG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation ESPG, consultez le site [spatialreference.org/](http://www.spatialreference.org/).
+Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (EPSG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation EPSG, consultez le site [spatialreference.org](http://www.spatialreference.org/).
 
 ##4. Centrage et zoom de la carte
 
