@@ -2,9 +2,11 @@
 
 ##1. Fond de carte
 
-- `[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
-- `[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
-- `[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
+`[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
+
+`[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
+
+`[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
 ##2.1 Source de donnée : mode "this"
 
@@ -47,7 +49,9 @@ Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés
 Avec ces trois modes, vous pouvez construire une carte avec les données contenues dans des champs personnalisés des articles et/ou des pages de votre WordPress :
 
 `[openlayers mode="posts"]` : Parcours de tous les articles de votre Wordpress
+
 `[openlayers mode="pages"]` : Parcours de toutes les pages de votre Wordpress
+
 `[openlayers mode="all"]` : Parcours de tous les articles et toutes les pages de votre Wordpress
 
 ###2.2.1 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
@@ -74,7 +78,8 @@ Vos données seront alors reprojetées à la volée dans la projection "Google M
 
 Vous pouvez centrer la carte manuellement en indiquant des coordonnées et un niveau de zoom :
 
-- `[openlayers center_lat="..." center_long="..."]` : Coordonnées sur lesquelles la carte doit se centrer (WGS 84 uniq.)
-- `[openlayers zoom="..."]` : Niveau de zoom que la carte doit adopté à son affichage
+`[openlayers center_lat="..." center_long="..."]` : Coordonnées sur lesquelles la carte doit se centrer (WGS 84 uniq.)
+
+`[openlayers zoom="..."]` : Niveau de zoom que la carte doit adopté à son affichage
 
 Si vous n'indiquez pas ces trois attributs ou s'ils sont mal renseignés, la carte sera centrée et zoomée sur les figurés qui la composent.

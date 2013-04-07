@@ -49,7 +49,7 @@ function openlayers_shortcode($attributs)
 	),$attributs));
 	$erreur			= false;
 	$path			= plugins_url().'/openlayers_shortcode';
-	$message		= 'Les erreurs suivantes ont été décelées :';
+	$message		= 'Les erreurs suivantes ont été rencontrées :';
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////// HTML + JS
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ function openlayers_shortcode($attributs)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if($mode == 'this')
 	{
-		// Détermination de l'id du post actuel
+		// Récupération de l'id du post actuel
 		$id_this = get_the_ID();
 		// Détermination du label
 		if($champ_label == 'title')
@@ -130,7 +130,7 @@ function openlayers_shortcode($attributs)
 				$output .= 'couche'.$id.'.addFeatures(entite);';
 			}
 		}
-		elseif($wkt != '')  // Sinon, on se contente de la notation WKT "en dur" (to-do : tester si le WKT est valide)
+		elseif($wkt != '')  // Sinon, on se contente de la notation WKT "en dur" (to-do : tester si le WKT est valide avec une regexp)
 		{
 			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
 			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
@@ -274,13 +274,13 @@ function openlayers_shortcode($attributs)
 	else
 	{
 		$erreur = true;
-		$message .= '<br />- Le mode que vous avez choisi est inconnu (Valeurs acceptées : "", "this", "posts", "pages" ou "all")';
+		$message .= '<br />- Le mode que vous avez choisi est inconnu (valeurs acceptées : "this", "posts", "pages" ou "all")';
 	}
 	$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////// CENTRAGE
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($center_long != '' AND $center_lat != '') // to-do : tester si numérique compris entre -90 et 90
+	if($center_long != '' AND $center_lat != '') // to-do : tester si numérique
 	{
 		$output .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
 		$output .= 'map'.$id.'.setCenter(center,'.$zoom.');';
