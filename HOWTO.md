@@ -2,7 +2,7 @@
 
 ##1. Fond de carte
 
-- `[openlayers tiles="osm"]` : Fond de carte OpenStreetMpa (OSM)
+- `[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
 - `[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
 - `[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
@@ -77,4 +77,4 @@ Vous pouvez centrer la carte manuellement en indiquant des coordonnées et un ni
 - `[openlayers center_lat="..." center_long="..."]` : Coordonnées sur lesquelles la carte doit se centrer (WGS 84 uniq.)
 - `[openlayers zoom="..."]` : Niveau de zoom que la carte doit adopté à son affichage
 
-Si vous n'indiquez pas ces attributs ou s'ils sont mal renseignés, la carte sera centrée et zoomée sur les figurés qui la composent.
+Si vous n'indiquez pas ces trois attributs ou s'ils sont mal renseignés, la carte sera centrée et zoomée sur les figurés qui la composent.

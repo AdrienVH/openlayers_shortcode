@@ -10,12 +10,12 @@ Le shortcode à utiliser est : `[openlayers attribut="valeur" attribut="valeur"]
 
 Le gros du plugin est écrit en PHP. Ce code PHP sert principalement à "pondre" du code JS selon les attributs renseignés dans le shortcode. Quelques lignes CSS sont aussi utiles afin de régler quelques soucis de compatibilité avec les feuilles CSS inhérentes à Wordpress.
 
-##Librairies emportées
+##Librairies embarquées
 
 Le plugin embarque deux librairies javascript :
 
-- OpenLayers 2.12 - http://openlayers.org/
-- Wax 6.4.0 - http://mapbox.com/wax/
+- OpenLayers 2.12 - [openlayers.org](http://openlayers.org/)
+- Wax 6.4.0 - [mapbox.com/wax](http://mapbox.com/wax/)
 
 ##Évolutions futures
 
@@ -28,4 +28,4 @@ Le plugin embarque deux librairies javascript :
 
 ##Contact
 
-Auteur : Adrien VAN HAMME - contact@adrienvh.fr
+Auteur : Adrien VAN HAMME - contact@adrienvh.fr - [adrienvh.fr](http://adrienvh.fr/)
