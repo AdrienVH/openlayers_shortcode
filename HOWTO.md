@@ -12,6 +12,7 @@ Si vous désirez intégrer plusieurs cartes dans un même article ou une même p
 - `[openlayers id="2"]`
 - `[openlayers id="3"]`
 - `[openlayers id="4"]`
+- `[openlayers id="5"]`
 - `[openlayers id="..."]`
 
 Vous pouvez inclure autant de cartes que vous le souhaitez. Rappelez-vous juste que le temps de chargement et d'affichage de votre page peut en être allongé...
@@ -38,7 +39,7 @@ Pour utiliser ce type de fond de carte, vous devez en plus indiquer l'URL (ex : 
 
 ###2.1.1 D'après des coordonnées (figuré ponctuel uniquement)
 
-- `[openlayers mode="this" lat="..." lng="..."]`
+- `[openlayers mode="this" lat="..." long="..."]`
 
 Vous devez indiquer les latitude et longitude du figuré ponctuel à représenter.
 
@@ -98,7 +99,15 @@ Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient
 
 Si le champ personnalisé indiqué n'est pas renseigné pour un(e) ou plusieurs articles/pages, ces articles/pages seront ignoré(e)s.
 
-##3. Reprojection des données à la volée
+##3. Sémiologies des figurés
+
+En cours de rédaction...
+
+##4. Etiquettes des figurés
+
+En cours de rédaction...
+
+##5. Reprojection des données à la volée
 
 Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans quelle projection elles sont notées initialement (via le code EPSG de cette projection) :
 

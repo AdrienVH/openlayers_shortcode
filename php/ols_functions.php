@@ -29,30 +29,30 @@ function enqueue_ols_js()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////// CHARGEMENT UNIQUE DES FEUILLES CSS
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//add_action('wp_enqueue_styles','enqueue_ols_css'); // bug : désactivé car le chargement se fait dans le header alors qu'il faudrait charger dans le footer
-function enqueue_ols_css()
-{
-	global $post; // On utilise la variable $post générée par WordPress
-	$return = false;
-	if($post)
-	{
-		$resultats = array();
-		$pattern = get_shortcode_regex();
-		preg_match_all('/'.$pattern.'/s', $post->post_content, $resultats);
-		foreach($resultats[2] as $shortcode)
-		{
-			if($shortcode == 'openlayers')
-			{
-				$path = plugins_url().'/openlayers_shortcode/css';
-				wp_enqueue_style('ols_css_carto', $path.'/carto.css', null, null, true);
-				wp_enqueue_style('ols_css_admin', $path.'/admin.css', null, null, true);
-				$return = true;
-				break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
-			}
-		}
-	}
-	return $return;
-}
+// add_action('wp_enqueue_styles','enqueue_ols_css'); // bug : fonction désactivée car le chargement se fait dans le header alors qu'il faut charger dans le footer obligatoirement (surcouche)
+// function enqueue_ols_css()
+// {
+	// global $post; // On utilise la variable $post générée par WordPress
+	// $return = false;
+	// if($post)
+	// {
+		// $resultats = array();
+		// $pattern = get_shortcode_regex();
+		// preg_match_all('/'.$pattern.'/s', $post->post_content, $resultats);
+		// foreach($resultats[2] as $shortcode)
+		// {
+			// if($shortcode == 'openlayers')
+			// {
+				// $path = plugins_url().'/openlayers_shortcode/css';
+				// wp_enqueue_style('ols_css_carto', $path.'/carto.css', null, null, true);
+				// wp_enqueue_style('ols_css_admin', $path.'/admin.css', null, null, true);
+				// $return = true;
+				// break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
+			// }
+		// }
+	// }
+	// return $return;
+// }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// HOOK ACTIVATION
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,12 +66,14 @@ function ols_activation() // To-do à l'activation du plugin (et non à l'instal
 	if(!get_option('ols_zoom'))				{add_option('ols_zoom','15');}
 	if(!get_option('ols_mode'))				{add_option('ols_mode','this');}
 	if(!get_option('ols_tiles'))			{add_option('ols_tiles','mapquest');}
-	if(!get_option('ols_long'))				{add_option('ols_long');}
 	if(!get_option('ols_lat'))				{add_option('ols_lat');}
-	if(!get_option('ols_wkt'))				{add_option('ols_wkt');}
-	if(!get_option('ols_champ_long'))		{add_option('ols_champ_long');}
 	if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
+	if(!get_option('ols_long'))				{add_option('ols_long');}
+	if(!get_option('ols_champ_long'))		{add_option('ols_champ_long');}
+	if(!get_option('ols_wkt'))				{add_option('ols_wkt');}}
 	if(!get_option('ols_champ_wkt'))		{add_option('ols_champ_wkt');}
+	if(!get_option('ols_url'))				{add_option('ols_url');}}
+	if(!get_option('ols_champ_url'))		{add_option('ols_champ_url');}
 	if(!get_option('ols_center_long'))		{add_option('ols_center_long');}
 	if(!get_option('ols_center_lat'))		{add_option('ols_center_lat');}
 	if(!get_option('ols_pointradius'))		{add_option('ols_pointradius','5');}
@@ -99,12 +101,14 @@ function ols_uninstall() // To-do à la désinstallation du plugin (et non à la
 	delete_option('ols_zoom');
 	delete_option('ols_mode');
 	delete_option('ols_tiles');
-	delete_option('ols_long');
 	delete_option('ols_lat');
-	delete_option('ols_wkt');
-	delete_option('ols_champ_long');
 	delete_option('ols_champ_lat');
+	delete_option('ols_long');
+	delete_option('ols_champ_long');
+	delete_option('ols_wkt');
 	delete_option('ols_champ_wkt');
+	delete_option('ols_url');
+	delete_option('ols_champ_url');
 	delete_option('ols_center_long');
 	delete_option('ols_center_lat');
 	delete_option('ols_pointradius');

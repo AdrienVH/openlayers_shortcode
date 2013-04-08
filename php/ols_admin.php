@@ -23,9 +23,10 @@ function ols_add_menu()
 			if(get_option('ols_zoom') != $_POST['ols_zoom'])					{update_option('ols_zoom',			$_POST['ols_zoom']);}
 			if(get_option('ols_mode') != $_POST['ols_mode'])					{update_option('ols_mode',			$_POST['ols_mode']);}
 			if(get_option('ols_tiles') != $_POST['ols_tiles'])					{update_option('ols_tiles',			$_POST['ols_tiles']);}
-			if(get_option('ols_champ_long') != $_POST['ols_champ_long'])		{update_option('ols_champ_long',	$_POST['ols_champ_long']);}
 			if(get_option('ols_champ_lat') != $_POST['ols_champ_lat'])			{update_option('ols_champ_lat',		$_POST['ols_champ_lat']);}
+			if(get_option('ols_champ_long') != $_POST['ols_champ_long'])		{update_option('ols_champ_long',	$_POST['ols_champ_long']);}
 			if(get_option('ols_champ_wkt') != $_POST['ols_champ_wkt'])			{update_option('ols_champ_wkt',		$_POST['ols_champ_wkt']);}
+			if(get_option('ols_champ_url') != $_POST['ols_champ_url'])			{update_option('ols_champ_url',		$_POST['ols_champ_url']);}
 			if(get_option('ols_center_long') != $_POST['ols_center_long'])		{update_option('ols_center_long',	$_POST['ols_center_long']);}
 			if(get_option('ols_center_lat') != $_POST['ols_center_lat'])		{update_option('ols_center_lat',	$_POST['ols_center_lat']);}
 			if(get_option('ols_pointradius') != $_POST['ols_pointradius'])		{update_option('ols_pointradius',	$_POST['ols_pointradius']);}
@@ -51,12 +52,14 @@ function ols_add_menu()
 			delete_option('ols_zoom');
 			delete_option('ols_mode');
 			delete_option('ols_tiles');
-			delete_option('ols_long');
 			delete_option('ols_lat');
-			delete_option('ols_wkt');
-			delete_option('ols_champ_long');
 			delete_option('ols_champ_lat');
+			delete_option('ols_long');
+			delete_option('ols_champ_long');
+			delete_option('ols_wkt');
 			delete_option('ols_champ_wkt');
+			delete_option('ols_url');
+			delete_option('ols_champ_url');
 			delete_option('ols_center_long');
 			delete_option('ols_center_lat');
 			delete_option('ols_pointradius');
@@ -78,12 +81,14 @@ function ols_add_menu()
 			if(!get_option('ols_zoom'))				{add_option('ols_zoom','15');}
 			if(!get_option('ols_mode'))				{add_option('ols_mode','this');}
 			if(!get_option('ols_tiles'))			{add_option('ols_tiles','mapquest');}
-			if(!get_option('ols_long'))				{add_option('ols_long');}
 			if(!get_option('ols_lat'))				{add_option('ols_lat');}
-			if(!get_option('ols_wkt'))				{add_option('ols_wkt');}
-			if(!get_option('ols_champ_long'))		{add_option('ols_champ_long');}
 			if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
+			if(!get_option('ols_long'))				{add_option('ols_long');}
+			if(!get_option('ols_champ_long'))		{add_option('ols_champ_long');}
+			if(!get_option('ols_wkt'))				{add_option('ols_wkt');}
 			if(!get_option('ols_champ_wkt'))		{add_option('ols_champ_wkt');}
+			if(!get_option('ols_url'))				{add_option('ols_wkt');}
+			if(!get_option('ols_champ_url'))		{add_option('ols_champ_wkt');}
 			if(!get_option('ols_center_long'))		{add_option('ols_center_long');}
 			if(!get_option('ols_center_lat'))		{add_option('ols_center_lat');}
 			if(!get_option('ols_pointradius'))		{add_option('ols_pointradius','5');}
@@ -136,12 +141,14 @@ function ols_add_menu()
 							echo '<li>zoom</li>';
 							echo '<li>mode</li>';
 							echo '<li>tiles</li>';
-							echo '<li class="no">long</li>';
 							echo '<li class="no">lat</li>';
-							echo '<li class="no">wkt</li>';
-							echo '<li>champ_long</li>';
 							echo '<li>champ_lat</li>';
+							echo '<li class="no">long</li>';
+							echo '<li>champ_long</li>';
+							echo '<li class="no">wkt</li>';
 							echo '<li>champ_wkt</li>';
+							echo '<li class="no">url</li>';
+							echo '<li>champ_url</li>';
 							echo '<li>center_long</li>';
 							echo '<li>center_lat</li>';
 							echo '<li>pointradius</li>';
@@ -180,8 +187,8 @@ function ols_add_menu()
 											echo '<p>- valeur initiale : 400px<br />- valeurs acceptées : notations css en px ou en %</p>';
 										echo '</td>';
 									echo '</tr>';
-									echo '<tr valign="top">'; // Ligne "Sources de la carte - mode"
-										echo '<th scope="row">Source(s) de la carte<br /><b>mode</b></th>';
+									echo '<tr valign="top">'; // Ligne "Source de donnée - mode"
+										echo '<th scope="row">Source de donnée<br /><b>mode</b></th>';
 										echo '<td>';
 											echo '<select name="ols_mode">';
 												$vals = array('this','posts','pages','all');
@@ -200,7 +207,7 @@ function ols_add_menu()
 										echo '<th scope="row">Fond de carte<br /><b>tiles</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles">';
-												$vals = array(/*'mapbox',*/'osm','mapquest','mapquest_aerial');
+												$vals = array(/*'mapbox',*/'mapquest','mapquest_aerial','osm'); //to-do : mapbox + url
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles'))
@@ -271,11 +278,6 @@ function ols_add_menu()
 								<table class="form-table">
 									<tr valign="top">
 										<th scope="row">Champ utilisé pour la longitude<br /><b>champ_long</b></th>
-										<td>
-											<input type="text" value="'.get_option('ols_champ_long').'" name="ols_champ_long" />
-											<p>- pas de valeur initiale</p>
-										</td>
-									</tr>
 									<tr valign="top">
 										<th scope="row">Champ utilisé pour la latitude<br /><b>champ_lat</b></th>
 										<td>
@@ -283,10 +285,22 @@ function ols_add_menu()
 											<p>- pas de valeur initiale</p>
 										</td>
 									</tr>
+										<td>
+											<input type="text" value="'.get_option('ols_champ_long').'" name="ols_champ_long" />
+											<p>- pas de valeur initiale</p>
+										</td>
+									</tr>
 									<tr valign="top">
 										<th scope="row">Champ utilisé pour la notation WKT<br /><b>champ_wkt</b></th>
 										<td>
 											<input type="text" value="'.get_option('ols_champ_wkt').'" name="ols_champ_wkt" />
+											<p>- pas de valeur initiale</p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<th scope="row">Champ utilisé pour l\'URL de fichiers à charger<br /><b>champ_url</b></th>
+										<td>
+											<input type="text" value="'.get_option('ols_champ_url').'" name="ols_champ_url" />
 											<p>- pas de valeur initiale</p>
 										</td>
 									</tr>
