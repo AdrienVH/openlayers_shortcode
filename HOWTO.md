@@ -1,6 +1,16 @@
 #OPENLAYERS SHORTCODE - HOW TO
 
+##0. Plusieurs cartes dans le même article ou la même page ?
+
+`[openlayers id="1"]`
+`[openlayers id="2"]`
+`[openlayers id="..."]`
+
+Si vous n'avez qu'une seule carte, il n'est pas nécessaire de renseigner cet attribut.
+
 ##1. Fond de carte
+
+En renseignant l'attribut "tiles", vous pouvez changer le fond de carte de vos cartographies :
 
 `[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
 
@@ -8,19 +18,21 @@
 
 `[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
+Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à me les proposer !
+
 ##2.1 Source de donnée : mode "this"
 
-- `[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
+`[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
 
 Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiquer, sauf si vous avez changé les valeurs par défaut dans l'interface d'administration.
 
-###2.1.1 D'après des coordonnées (ponctuel uniq.)
+###2.1.1 D'après des coordonnées (figuré ponctuel uniquement)
 
 Deux attributs doivent être renseignés :
 
 `[openlayers lat="..." lng="..."]`
 
-###2.1.2 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
+###2.1.2 D'après des coordonnées contenues dans des champs personnalisés (figuré ponctuel uniquement)
 
 Deux attributs doivent être renseignés :
 
@@ -54,7 +66,7 @@ Avec ces trois modes, vous pouvez construire une carte avec les données contenu
 
 `[openlayers mode="all"]` : Parcours de tous les articles et toutes les pages de votre Wordpress
 
-###2.2.1 D'après des coordonnées (ponctuel uniq.) contenues dans des champs personnalisés
+###2.2.1 D'après des coordonnées contenues dans des champs personnalisés (figuré ponctuel uniquement)
 
 Deux attributs doivent être renseignés :
 
