@@ -34,7 +34,7 @@ Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me
 
 Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiquer, sauf si vous avez changé les valeurs par défaut dans l'interface d'administration.
 
-*2.1.1 D'après des coordonnées (figuré ponctuel uniquement)*
+**2.1.1 D'après des coordonnées (figuré ponctuel uniquement)**
 
 Deux attributs doivent être renseignés :
 
