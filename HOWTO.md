@@ -40,17 +40,15 @@ Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiq
 
 ###2.1.1 D'après des coordonnées (figuré ponctuel uniquement)
 
-Deux attributs doivent être renseignés :
-
 - `[openlayers lat="..." lng="..."]`
+
+Vous devez indiquer les latitude et longitude du figuré ponctuel à représenter.
 
 ###2.1.2 D'après des coordonnées contenues dans des champs personnalisés (figuré ponctuel uniquement)
 
-Deux attributs doivent être renseignés :
-
 - `[openlayers champ_lat="..." champ_long="..."]`
 
-Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
+Vous devez indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude du figuré ponctuel à représenter.
 
 ###2.1.3 D'après la géométrie WKT
 
@@ -68,9 +66,13 @@ Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient
 
 - `[openlayers url="..."]`
 
+Vous devez indiquer l'URL du fichier à charger (GML ou GeoJSON).
+
 ###2.1.6 D'après l'URL d'un fichier distant contenue dans un champ personnalisé
 
 - `[openlayers champ_url="..."]`
+
+Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient l'URL du fichier à charger (GML ou GeoJSON).
 
 ##2.2 Source de donnée : modes "posts", "pages" ou "all"
 
@@ -86,13 +88,17 @@ Avec ces trois modes, vous pouvez construire une carte avec toutes les données 
 
 - `[openlayers mode="..." champ_lat="..." champ_long="..."]`
 
-Vous devez indiquer les noms formalisés (*slug*) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
+Vous devez indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
+
+Si le champ personnalisé indiqué n'est pas renseigné pour un(e) ou plusieurs articles/pages, ces articles/pages seront ignoré(e)s.
 
 ###2.2.2 D'après des géométries WKT contenues dans un champ personnalisé
 
 - `[openlayers mode="..." champ_wkt="..."]`
 
-Vous devez indiquer le nom formalisé (*slug*) du champ personnalisé qui contient les [géométries WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
+Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient les [géométries WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
+
+Si le champ personnalisé indiqué n'est pas renseigné pour un(e) ou plusieurs articles/pages, ces articles/pages seront ignoré(e)s.
 
 ##3. Reprojection des données à la volée
 
