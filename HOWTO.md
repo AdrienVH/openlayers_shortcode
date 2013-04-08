@@ -20,15 +20,17 @@ Vous pouvez inclure autant de cartes que vous le souhaitez. Rappelez-vous juste 
 
 En renseignant l'attribut "tiles", vous pouvez changer le fond de carte de vos cartographies :
 
-`[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
+	`[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
 
-`[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
+	`[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
 
-`[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
+	`[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
 Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
 `[openlayers tiles="mapbox" mapbox_url="..."]` : Fond de carte hébergé par votre compte [Mapbox](http://mapbox.com/) personnel
+
+Pour utiliser ce type de fond de carte, vous devez indiquer en plus l'URL pointant vers le fichier .jsonp de votre fond de carte Mapbox (via l'attribut "mapbox_url")
 
 ##2.1 Source de donnée : mode "this"
 
