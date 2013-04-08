@@ -10,7 +10,7 @@ Si vous désirez intégrer plusieurs cartes dans un même article, ou une même 
 `[openlayers id="2"]`
 `[openlayers id="3"]`
 `[openlayers id="4"]`
-, etc.
+`[openlayers id="..."]`
 
 Si vous n'avez qu'une seule carte, il n'est pas nécessaire de renseigner cet attribut.
 
@@ -26,9 +26,9 @@ En renseignant l'attribut "tiles", vous pouvez changer le fond de carte de vos c
 
 `[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
-Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à me les proposer !
+Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
-##2.1 Source de donnée : mode "this"
+*2.1 Source de donnée : mode "this"*
 
 `[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
 
