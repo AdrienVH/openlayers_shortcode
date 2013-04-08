@@ -1,12 +1,20 @@
 #OPENLAYERS SHORTCODE - HOW TO
 
-##0. Plusieurs cartes dans le même article ou la même page ?
+Ce petit guide va vous permettre de prendre en main le fonctionnement du shortcode. Suivez l'ordre, et le guide !
+
+##0. Plusieurs cartes dans le même article ou la même page
+
+Si vous désirez intégrer plusieurs cartes dans un même article, ou une même page, vous allez devoir les identifier en renseignant un numéro dans l'attribut "id".
 
 `[openlayers id="1"]`
 `[openlayers id="2"]`
-`[openlayers id="..."]`
+`[openlayers id="3"]`
+`[openlayers id="4"]`
+, etc.
 
 Si vous n'avez qu'une seule carte, il n'est pas nécessaire de renseigner cet attribut.
+
+Vous pouvez inclure autant de cartes que vous le souhaitez. Rappelez-vous juste que le temps de chargement/affichage de votre page peut être allongé...
 
 ##1. Fond de carte
 
