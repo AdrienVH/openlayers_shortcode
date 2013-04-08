@@ -28,13 +28,13 @@ En renseignant l'attribut "tiles", vous pouvez changer le fond de carte de vos c
 
 Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
-*2.1 Source de donnée : mode "this"*
+##2.1 Source de donnée : mode "this"
 
 `[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
 
 Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiquer, sauf si vous avez changé les valeurs par défaut dans l'interface d'administration.
 
-###2.1.1 D'après des coordonnées (figuré ponctuel uniquement)
+*2.1.1 D'après des coordonnées (figuré ponctuel uniquement)*
 
 Deux attributs doivent être renseignés :
 
