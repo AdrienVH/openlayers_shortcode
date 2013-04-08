@@ -61,14 +61,6 @@ function openlayers_shortcode($attributs)
 	$output .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
 	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();';
 	$output .= 'map'.$id.'.addLayer(coucheOSM);';
-	/*if($tiles == 'mapbox') // Fond de carte Mapbox Streets
-	{
-		$output .= 'var coucheMB;';
-		$output .= 'wax.tilejson("http://a.tiles.mapbox.com/v3/mapbox.mapbox-streets.jsonp",function(tilejson){';
-		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
-		$output .= 'map'.$id.'.addLayer(coucheMB);';
-		$output .= '});';
-	}*/
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
 		$output .= 'var tilesURL = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
@@ -81,6 +73,14 @@ function openlayers_shortcode($attributs)
 		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
+	if($tiles == 'mapbox' AND filter_var($mapbox_url,FILTER_VALIDATE_URL))
+	{
+		$output .= 'var coucheMB;';
+		$output .= 'wax.tilejson("'.$mapbox_url.'",function(tilejson){';
+		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
+		$output .= 'map'.$id.'.addLayer(coucheMB);';
+		$output .= '});';
+	}*/
 	// Style des figurés
 	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
 	$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';

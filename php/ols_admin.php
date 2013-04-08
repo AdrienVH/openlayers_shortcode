@@ -214,7 +214,7 @@ function ols_add_menu()
 										echo '<th scope="row">Fond de carte<br /><b>tiles</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles">';
-												$vals = array(/*'mapbox',*/'mapquest','mapquest_aerial','osm'); //to-do : mapbox + url
+												$vals = array('mapquest','mapquest_aerial','osm','mapbox');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles'))
