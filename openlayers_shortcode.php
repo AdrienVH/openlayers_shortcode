@@ -73,14 +73,14 @@ function openlayers_shortcode($attributs)
 		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
-	if($tiles == 'mapbox' AND filter_var($mapbox_url,FILTER_VALIDATE_URL))
+	if($tiles == 'mapbox' AND filter_var($mapbox_url,FILTER_VALIDATE_URL)) // Fond de carte MapBox
 	{
 		$output .= 'var coucheMB;';
 		$output .= 'wax.tilejson("'.$mapbox_url.'",function(tilejson){';
 		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
-	}*/
+	}
 	// Style des figurés
 	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
 	$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
@@ -291,7 +291,10 @@ function openlayers_shortcode($attributs)
 	{
 		$output .= 'map'.$id.'.zoomToExtent(couche'.$id.'.getDataExtent());';
 	}
-	if($tiles != 'osm') // Fond de carte
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////// FOND DE CARTE
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if($tiles != 'osm')
 	{
 		$output .= 'map'.$id.'.removeLayer(coucheOSM);';
 	}

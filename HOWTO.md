@@ -61,13 +61,13 @@ Vous devez indiquer la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known
 
 Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
 
-###2.1.5 D'après l'URL d'un fichier distant
+###2.1.5 D'après l'URL d'un fichier à charger
 
 - `[openlayers mode="this" url="..."]`
 
 Vous devez indiquer l'URL du fichier à charger (GML ou GeoJSON).
 
-###2.1.6 D'après l'URL d'un fichier distant contenue dans un champ personnalisé
+###2.1.6 D'après l'URL d'un fichier à charger contenue dans un champ personnalisé
 
 - `[openlayers mode="this" champ_url="..."]`
 
@@ -99,6 +99,14 @@ Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient
 
 Si le champ personnalisé indiqué n'est pas renseigné pour un(e) ou plusieurs articles/pages, ces articles/pages seront ignoré(e)s.
 
+###2.2.3 D'après les URL de fichiers à charger contenues dans un champ personnalisé
+
+- `[openlayers mode="..." champ_url="..."]`
+
+Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient les URL de fichiers à charger (GML ou GeoJSON).
+
+Si le champ personnalisé indiqué n'est pas renseigné pour un(e) ou plusieurs articles/pages, ces articles/pages seront ignoré(e)s.
+
 ##3. Sémiologies des figurés
 
 En cours de rédaction...
@@ -115,7 +123,7 @@ Vous pouvez demander à ce que vos données soient reprojetées en indiquant dan
 
 Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (EPSG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation EPSG, consultez le site [spatialreference.org](http://www.spatialreference.org/).
 
-##6. Centrage et zoom de la carte
+##6. Centrage et zoom
 
 Vous pouvez centrer la carte manuellement en indiquant des coordonnées et un niveau de zoom :
 
