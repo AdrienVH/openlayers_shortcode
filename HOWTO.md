@@ -1,6 +1,8 @@
 #OPENLAYERS SHORTCODE - HOW TO
 
-Ce petit guide va vous permettre de prendre en main le fonctionnement du shortcode. Suivez l'ordre, et le guide !
+Ce petit guide va vous permettre de prendre en main le fonctionnement du shortcode.
+
+Suivez l'ordre, et le guide !
 
 ##0. Plusieurs cartes dans le même article ou la même page
 
@@ -20,17 +22,17 @@ Vous pouvez inclure autant de cartes que vous le souhaitez. Rappelez-vous juste 
 
 En renseignant l'attribut "tiles", vous pouvez changer le fond de carte de vos cartographies :
 
-	`[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
+`[openlayers tiles="osm"]` : Fond de carte OpenStreetMap (OSM)
 
-	`[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
+`[openlayers tiles="mapquest"]` : Fond de carte OSM selon MapQuest
 
-	`[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
+`[openlayers tiles="mapquest_aerial"]` : Photo aérienne selon MapQuest
 
 Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
 `[openlayers tiles="mapbox" mapbox_url="..."]` : Fond de carte hébergé par votre compte [Mapbox](http://mapbox.com/) personnel
 
-Pour utiliser ce type de fond de carte, vous devez indiquer en plus l'URL pointant vers le fichier .jsonp de votre fond de carte Mapbox (via l'attribut "mapbox_url")
+Pour utiliser ce type de fond de carte, vous devez en plus indiquer l'URL pointant vers le fichier .jsonp généré par Mapbox (via l'attribut "mapbox_url")
 
 ##2.1 Source de donnée : mode "this"
 
@@ -56,9 +58,13 @@ Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés
 
 `[openlayers wkt="..."]`
 
+Vous devez indiquer la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
+
 ###2.1.4 D'après la géométrie WKT contenues dans un champ personnalisé
 
 `[openlayers mode="this" champ_wkt="..."]`
+
+Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient les [géométries WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
 
 ###2.1.5 D'après l'URL d'un fichier distant
 
@@ -70,7 +76,7 @@ Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés
 
 ##2.2 Source de donnée : modes "posts", "pages" ou "all"
 
-Avec ces trois modes, vous pouvez construire une carte avec les données contenues dans des champs personnalisés des articles et/ou des pages de votre WordPress :
+Avec ces trois modes, vous pouvez construire une carte avec toutes les données contenues dans les champs personnalisés de tous vos articles et/ou de toutes vos pages de votre WordPress :
 
 `[openlayers mode="posts"]` : Parcours de tous les articles de votre Wordpress
 
@@ -80,21 +86,21 @@ Avec ces trois modes, vous pouvez construire une carte avec les données contenu
 
 ###2.2.1 D'après des coordonnées contenues dans des champs personnalisés (figuré ponctuel uniquement)
 
-Deux attributs doivent être renseignés :
-
 `[openlayers mode="..." champ_lat="..." champ_long="..."]`
 
-Vous devez y indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
+Vous devez indiquer les noms formalisés (*slug*) des deux champs personnalisés qui contiennent les latitude et longitude des figurés ponctuels à représenter.
 
 ###2.2.2 D'après des géométries WKT contenues dans un champ personnalisé
 
 `[openlayers mode="..." champ_wkt="..."]`
 
+Vous devez indiquer le nom formalisé (*slug*) du champ personnalisé qui contient les [géométries WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
+
 ##3. Reprojection des données à la volée
 
 Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans quelle projection elles sont notées initialement (via le code EPSG de cette projection) :
 
-`[openlayers epsg="..."]`
+`[openlayers proj="..."]`
 
 Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (EPSG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation EPSG, consultez le site [spatialreference.org](http://www.spatialreference.org/).
 
@@ -102,8 +108,10 @@ Vos données seront alors reprojetées à la volée dans la projection "Google M
 
 Vous pouvez centrer la carte manuellement en indiquant des coordonnées et un niveau de zoom :
 
-`[openlayers center_lat="..." center_long="..."]` : Coordonnées sur lesquelles la carte doit se centrer (WGS 84 uniq.)
+`[openlayers center_lat="..." center_long="..."]` : Coordonnées sur lesquelles la carte doit se centrer
+
+Attention, si vous avez indiquer une projection avec l'attribut "proj", ces coordonnées seront aussi reprojetées !
 
 `[openlayers zoom="..."]` : Niveau de zoom que la carte doit adopté à son affichage
 
-Si vous n'indiquez pas ces trois attributs ou s'ils sont mal renseignés, la carte sera centrée et zoomée sur les figurés qui la composent.
+Si vous n'indiquez pas ces trois attributs ou s'ils sont mal renseignés, la carte sera centrée et zoomée sur l'ensemble des figurés qui la composent.
