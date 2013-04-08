@@ -6,13 +6,13 @@ Suivez l'ordre, et le guide !
 
 ##0. Plusieurs cartes dans un même article / une même page
 
-Si vous désirez intégrer plusieurs cartes dans un même article ou une même page, vous devez les identifier en renseignant l'attribut "id" :
+Si vous désirez intégrer plusieurs cartes dans un même article ou une même page, vous devez les identifier en renseignant l'attribut "id" de cette façon :
 
-`[openlayers id="1"]`
-`[openlayers id="2"]`
-`[openlayers id="3"]`
-`[openlayers id="4"]`
-`[openlayers id="..."]`
+- `[openlayers id="1"]`
+- `[openlayers id="2"]`
+- `[openlayers id="3"]`
+- `[openlayers id="4"]`
+- `[openlayers id="..."]`
 
 Vous pouvez inclure autant de cartes que vous le souhaitez. Rappelez-vous juste que le temps de chargement et d'affichage de votre page peut en être allongé...
 
@@ -30,29 +30,27 @@ Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me
 
 - `[openlayers tiles="mapbox" mapbox_url="..."]` : Fond de carte hébergé par votre compte [Mapbox](http://mapbox.com/) personnel
 
-Pour utiliser ce type de fond de carte, vous devez en plus indiquer l'URL pointant vers le fichier .jsonp généré par Mapbox (via l'attribut "mapbox_url")
+Pour utiliser ce type de fond de carte, vous devez en plus indiquer l'URL (ex : tiles.mapbox.com/v3/pseudo.titre-carte.jsonp) du fichier `.jsonp` généré par Mapbox (via l'attribut "mapbox_url").
 
 ##2.1 Source de donnée : mode "this"
 
 - `[openlayers mode="this"]` : Utilisation des données présentes dans l'article ou la page où le shortcode a été inséré.
 
-Le mode "this" est le mode par défaut. Il n'est donc pas nécessaire de l'indiquer, sauf si vous avez changé les valeurs par défaut dans l'interface d'administration.
-
 ###2.1.1 D'après des coordonnées (figuré ponctuel uniquement)
 
-- `[openlayers lat="..." lng="..."]`
+- `[openlayers mode="this" lat="..." lng="..."]`
 
 Vous devez indiquer les latitude et longitude du figuré ponctuel à représenter.
 
 ###2.1.2 D'après des coordonnées contenues dans des champs personnalisés (figuré ponctuel uniquement)
 
-- `[openlayers champ_lat="..." champ_long="..."]`
+- `[openlayers mode="this" champ_lat="..." champ_long="..."]`
 
 Vous devez indiquer les noms formalisés (slug) des deux champs personnalisés qui contiennent les latitude et longitude du figuré ponctuel à représenter.
 
 ###2.1.3 D'après la géométrie WKT
 
-- `[openlayers wkt="..."]`
+- `[openlayers mode="this" wkt="..."]`
 
 Vous devez indiquer la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
 
@@ -60,17 +58,17 @@ Vous devez indiquer la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known
 
 - `[openlayers mode="this" champ_wkt="..."]`
 
-Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient les [géométries WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
+Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient la [géométrie WKT](http://fr.wikipedia.org/wiki/Well-known_text) à représenter.
 
 ###2.1.5 D'après l'URL d'un fichier distant
 
-- `[openlayers url="..."]`
+- `[openlayers mode="this" url="..."]`
 
 Vous devez indiquer l'URL du fichier à charger (GML ou GeoJSON).
 
 ###2.1.6 D'après l'URL d'un fichier distant contenue dans un champ personnalisé
 
-- `[openlayers champ_url="..."]`
+- `[openlayers mode="this" champ_url="..."]`
 
 Vous devez indiquer le nom formalisé (slug) du champ personnalisé qui contient l'URL du fichier à charger (GML ou GeoJSON).
 
