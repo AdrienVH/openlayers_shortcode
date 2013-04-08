@@ -28,6 +28,7 @@ function ols_add_menu()
 			if(get_option('ols_champ_long') != $_POST['ols_champ_long'])		{update_option('ols_champ_long',	$_POST['ols_champ_long']);}
 			if(get_option('ols_champ_wkt') != $_POST['ols_champ_wkt'])			{update_option('ols_champ_wkt',		$_POST['ols_champ_wkt']);}
 			if(get_option('ols_champ_url') != $_POST['ols_champ_url'])			{update_option('ols_champ_url',		$_POST['ols_champ_url']);}
+			if(get_option('ols_proj') != $_POST['ols_proj'])					{update_option('ols_proj',			$_POST['ols_proj']);}
 			if(get_option('ols_center_long') != $_POST['ols_center_long'])		{update_option('ols_center_long',	$_POST['ols_center_long']);}
 			if(get_option('ols_center_lat') != $_POST['ols_center_lat'])		{update_option('ols_center_lat',	$_POST['ols_center_lat']);}
 			if(get_option('ols_pointradius') != $_POST['ols_pointradius'])		{update_option('ols_pointradius',	$_POST['ols_pointradius']);}
@@ -62,6 +63,7 @@ function ols_add_menu()
 			delete_option('ols_champ_wkt');
 			delete_option('ols_url');
 			delete_option('ols_champ_url');
+			delete_option('ols_proj');
 			delete_option('ols_center_long');
 			delete_option('ols_center_lat');
 			delete_option('ols_pointradius');
@@ -92,6 +94,7 @@ function ols_add_menu()
 			if(!get_option('ols_champ_wkt'))		{add_option('ols_champ_wkt');}
 			if(!get_option('ols_url'))				{add_option('ols_wkt');}
 			if(!get_option('ols_champ_url'))		{add_option('ols_champ_wkt');}
+			if(!get_option('ols_proj'))				{add_option('ols_proj');}
 			if(!get_option('ols_center_long'))		{add_option('ols_center_long');}
 			if(!get_option('ols_center_lat'))		{add_option('ols_center_lat');}
 			if(!get_option('ols_pointradius'))		{add_option('ols_pointradius','5');}
@@ -152,6 +155,7 @@ function ols_add_menu()
 							echo '<li>champ_wkt</li>';
 							echo '<li class="no">url</li>';
 							echo '<li>champ_url</li>';
+							echo '<li>proj</li>';
 							echo '<li>center_long</li>';
 							echo '<li>center_lat</li>';
 							echo '<li>pointradius</li>';
@@ -312,6 +316,13 @@ function ols_add_menu()
 										<td>
 											<input type="text" value="'.get_option('ols_champ_url').'" name="ols_champ_url" />
 											<p>- pas de valeur initiale</p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<th scope="row">Projection des données source<br /><b>proj</b></th>
+										<td>
+											<input type="text" value="'.get_option('ols_proj').'" name="ols_proj" />
+											<p>- pas de valeur initiale<br />- valeurs acceptées : code EPSG d\'une projection</p>
 										</td>
 									</tr>
 									<tr valign="top">

@@ -107,15 +107,15 @@ En cours de rédaction...
 
 En cours de rédaction...
 
-##5. Reprojection des données à la volée
+##5. Reprojection des données à la volée (en cours de développement)
 
-Vous pouvez demander à OpenLayers de reprojeter vos données en indiquant dans quelle projection elles sont notées initialement (via le code EPSG de cette projection) :
+Vous pouvez demander à ce que vos données soient reprojetées en indiquant dans quelle projection elles se trouvaient initialement (via le code EPSG de cette projection) :
 
 - `[openlayers proj="..."]`
 
 Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (EPSG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation EPSG, consultez le site [spatialreference.org](http://www.spatialreference.org/).
 
-##4. Centrage et zoom de la carte
+##6. Centrage et zoom de la carte
 
 Vous pouvez centrer la carte manuellement en indiquant des coordonnées et un niveau de zoom :
 

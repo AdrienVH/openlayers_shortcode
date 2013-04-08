@@ -5,7 +5,7 @@ Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
 Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapBox Streets, MapQuest et MapQuest Aerial). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les deux librairies JS Openlayers (2.12) et Wax (6.4.0).
 Author: Adrien VAN HAMME
 Author URI: http://adrienvh.fr/
-Version: 1.2.2
+Version: 1.5.3
 */
 require_once('php/ols_functions.php');
 require_once('php/ols_admin.php');
@@ -34,6 +34,7 @@ function openlayers_shortcode($attributs)
 	'champ_wkt'		=> get_option('ols_champ_wkt'),
 	'url'			=> get_option('ols_url'),
 	'champ_url'		=> get_option('ols_champ_url'),
+	'proj'			=> get_option('ols_proj'),
 	'center_lat'	=> get_option('ols_center_lat'),
 	'center_long'	=> get_option('ols_center_long'),
 	'pointradius'	=> get_option('ols_pointradius'),
