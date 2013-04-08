@@ -42,7 +42,6 @@ function ols_add_menu()
 			if(get_option('ols_labeloffset') != $_POST['ols_labeloffset'])		{update_option('ols_labeloffset',	$_POST['ols_labeloffset']);}
 			if(get_option('ols_fontweight') != $_POST['ols_fontweight'])		{update_option('ols_fontweight',	$_POST['ols_fontweight']);}
 			if(get_option('ols_fontsize') != $_POST['ols_fontsize'])			{update_option('ols_fontsize',		$_POST['ols_fontsize']);}
-			$message = '';
 		}
 		elseif($_POST['ols_reset'] != '')
 		{
@@ -77,7 +76,7 @@ function ols_add_menu()
 			delete_option('ols_labeloffset');
 			delete_option('ols_fontweight');
 			delete_option('ols_fontsize');
-			// Ajout des options dans la table wp_options (avec valeurs initiales)
+			// Ajout des options dans la table wp_options avec leurs valeurs initiales
 			if(!get_option('ols_id'))				{add_option('ols_id','1');}
 			if(!get_option('ols_debug'))			{add_option('ols_debug','non');}
 			if(!get_option('ols_width'))			{add_option('ols_width','100%');}
@@ -108,7 +107,6 @@ function ols_add_menu()
 			if(!get_option('ols_labeloffset'))		{add_option('ols_labeloffset','10');}
 			if(!get_option('ols_fontweight'))		{add_option('ols_fontweight','bold');}
 			if(!get_option('ols_fontsize'))			{add_option('ols_fontsize','12px');}
-			$message = '';
 		}
 		// AFFICHAGE
 		echo '<div class="wrap columns-2 dd-wrap">';
