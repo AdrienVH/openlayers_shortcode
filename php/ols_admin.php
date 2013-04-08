@@ -23,6 +23,7 @@ function ols_add_menu()
 			if(get_option('ols_zoom') != $_POST['ols_zoom'])					{update_option('ols_zoom',			$_POST['ols_zoom']);}
 			if(get_option('ols_mode') != $_POST['ols_mode'])					{update_option('ols_mode',			$_POST['ols_mode']);}
 			if(get_option('ols_tiles') != $_POST['ols_tiles'])					{update_option('ols_tiles',			$_POST['ols_tiles']);}
+			if(get_option('ols_mapbox_url') != $_POST['ols_mapbox_url'])		{update_option('ols_mapbox_url',	$_POST['ols_mapbox_url']);}
 			if(get_option('ols_champ_lat') != $_POST['ols_champ_lat'])			{update_option('ols_champ_lat',		$_POST['ols_champ_lat']);}
 			if(get_option('ols_champ_long') != $_POST['ols_champ_long'])		{update_option('ols_champ_long',	$_POST['ols_champ_long']);}
 			if(get_option('ols_champ_wkt') != $_POST['ols_champ_wkt'])			{update_option('ols_champ_wkt',		$_POST['ols_champ_wkt']);}
@@ -52,6 +53,7 @@ function ols_add_menu()
 			delete_option('ols_zoom');
 			delete_option('ols_mode');
 			delete_option('ols_tiles');
+			delete_option('ols_mapbox_url');
 			delete_option('ols_lat');
 			delete_option('ols_champ_lat');
 			delete_option('ols_long');
@@ -81,6 +83,7 @@ function ols_add_menu()
 			if(!get_option('ols_zoom'))				{add_option('ols_zoom','15');}
 			if(!get_option('ols_mode'))				{add_option('ols_mode','this');}
 			if(!get_option('ols_tiles'))			{add_option('ols_tiles','mapquest');}
+			if(!get_option('ols_mapbox_url'))		{add_option('ols_mapbox_url');}
 			if(!get_option('ols_lat'))				{add_option('ols_lat');}
 			if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
 			if(!get_option('ols_long'))				{add_option('ols_long');}
@@ -217,6 +220,13 @@ function ols_add_menu()
 												}
 											echo '</select>';
 											echo '<p>- valeur initiale : mapquest</p>';
+										echo '</td>';
+									echo '</tr>';
+									echo '<tr valign="top">';
+										echo '<th scope="row">Adresse URL du fond de carte Mapbox<br /><b>mapbox_url</b></th>';
+										echo '<td>';
+											echo '<input type="text" value="'.get_option('ols_mapbox_url').'" name="ols_mapbox_url" />';
+											echo '<p>- pas de valeur initiale</p>';
 										echo '</td>';
 									echo '</tr>';
 									echo '<tr valign="top">'; // Ligne "Mode debug - debug"
