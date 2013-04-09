@@ -81,14 +81,12 @@ function openlayers_shortcode($attributs)
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
 	}
-	if($tiles == 'wms') //AND $tiles_proj != '' AND filter_var($tiles_url,FILTER_VALIDATE_URL))  // to-do : Fond de carte WMS
-	{
+	// if($tiles == 'wms' AND $tiles_proj != '' AND filter_var($tiles_url,FILTER_VALIDATE_URL))  // to-do : Fond de carte WMS
+	// {
 		// $output .= 'var tuiles = ["'.$tiles_url.'"];';
 		// $output .= 'var coucheWMS = new OpenLayers.Layer.WMS("Fond de carte WMS",tuiles,{srs:"EPSG:'.$tiles_proj.'"});';
 		// $output .= 'map'.$id.'.addLayer(coucheWMS);';
-		$output .= 'var coucheWMS = new OpenLayers.Layer.WMS("DM Solutions Demo","http://www2.dmsolutions.ca/cgi-bin/mswms_gmap",{layers: "bathymetry"});';
-		$output .= 'map'.$id.'.addLayer(coucheWMS);';
-	}
+	// }
 	// Style des figurés
 	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
 	$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
