@@ -66,7 +66,7 @@ function ols_activation() // To-do à l'activation du plugin (et non à l'instal
 	if(!get_option('ols_zoom'))				{add_option('ols_zoom','15');}
 	if(!get_option('ols_mode'))				{add_option('ols_mode','this');}
 	if(!get_option('ols_tiles'))			{add_option('ols_tiles','mapquest');}
-	if(!get_option('ols_mapbox_url'))		{add_option('ols_mapbox_url');}
+	if(!get_option('ols_tiles_url'))		{add_option('ols_tiles_url');}
 	if(!get_option('ols_lat'))				{add_option('ols_lat');}
 	if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
 	if(!get_option('ols_long'))				{add_option('ols_long');}
@@ -103,7 +103,7 @@ function ols_uninstall() // To-do à la désinstallation du plugin (et non à la
 	delete_option('ols_zoom');
 	delete_option('ols_mode');
 	delete_option('ols_tiles');
-	delete_option('ols_mapbox_url');
+	delete_option('ols_tiles_url');
 	delete_option('ols_lat');
 	delete_option('ols_champ_lat');
 	delete_option('ols_long');

@@ -26,6 +26,7 @@ function openlayers_shortcode($attributs)
 	'zoom'			=> get_option('ols_zoom'),
 	'mode'			=> get_option('ols_mode'),
 	'tiles'			=> get_option('ols_tiles'),
+	'tiles_url'		=> get_option('ols_tiles_url'),
 	'lat'			=> get_option('ols_lat'),
 	'champ_lat'		=> get_option('ols_champ_lat'),
 	'long'			=> get_option('ols_long'),
@@ -52,14 +53,14 @@ function openlayers_shortcode($attributs)
 	$erreur			= false;
 	$path			= plugins_url().'/openlayers_shortcode';
 	$message		= 'Les erreurs suivantes ont été rencontrées :';
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////// HTML + JS
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	$output = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
 	$output .= '<script>';
 	$output .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
 	$output .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();';
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////// TILES
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();'; // Fond de carte OSM
 	$output .= 'map'.$id.'.addLayer(coucheOSM);';
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
@@ -73,10 +74,10 @@ function openlayers_shortcode($attributs)
 		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
-	if($tiles == 'mapbox' AND filter_var($mapbox_url,FILTER_VALIDATE_URL)) // Fond de carte MapBox
+	if($tiles == 'mapbox' AND filter_var($tiles_url,FILTER_VALIDATE_URL)) // Fond de carte MapBox
 	{
 		$output .= 'var coucheMB;';
-		$output .= 'wax.tilejson("'.$mapbox_url.'",function(tilejson){';
+		$output .= 'wax.tilejson("'.$tiles_url.'",function(tilejson){';
 		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
@@ -278,11 +279,11 @@ function openlayers_shortcode($attributs)
 		$erreur = true;
 		$message .= '<br />- Le mode que vous avez choisi est inconnu (valeurs acceptées : "this", "posts", "pages" ou "all")';
 	}
-	$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+	$output .= 'map'.$id.'.addLayer(couche'.$id.');'; // to-do : risque d'erreur js objet non déclaré
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////// CENTRAGE
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($center_long != '' AND $center_lat != '') // to-do : tester si numérique
+	if($center_lat != '' AND $center_long != '') // to-do : tester si numérique
 	{
 		$output .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
 		$output .= 'map'.$id.'.setCenter(center,'.$zoom.');';
@@ -314,20 +315,21 @@ function openlayers_shortcode($attributs)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////// OUTPUT
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($erreur == false) // Si aucune erreur n'a été détectée
-	{
-		if($debug == 'oui') // Si le mode debug est activé
-			return $output.'<br />'.$message;
-		else
-			return $output;
-	}
-	elseif($erreur == true AND $debug == 'oui') // Si au moins une erreur a été détectée et que le mode debug est activé
+	if($erreur == true AND $debug == 'oui') // S'il y a au moins une erreur et que le mode "debug" est activé
 	{
 		return $message;
 	}
-	else // Sinon, on ne retourne rien du tout
+	elseif($erreur == true AND $debug == 'non') // S'il y a au moins une erreur et que le mode "debug" est activé
 	{
 		return null;
+	}
+	elseif($erreur == false AND $debug == 'oui') // S'il n'y a aucune erreur, mais que le mode "debug" est activé
+	{
+		return $output.'<br />'.$message;
+	}
+	else // S'il n'y a aucune erreur et que le mode "debug" n'est pas activé
+	{
+		return $output;
 	}
 }
 ?>
