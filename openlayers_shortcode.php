@@ -50,9 +50,8 @@ function openlayers_shortcode($attributs)
 	'fontweight'	=> get_option('ols_fontweight'),
 	'fontsize'		=> get_option('ols_fontsize')
 	),$attributs));
-	$erreur			= false;
-	$path			= plugins_url().'/openlayers_shortcode';
-	$message		= 'Les erreurs suivantes ont été rencontrées :';
+	$erreur = false;
+	$message = 'Les erreurs suivantes ont été rencontrées :';
 	$output = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
 	$output .= '<script>';
 	$output .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
@@ -64,14 +63,14 @@ function openlayers_shortcode($attributs)
 	$output .= 'map'.$id.'.addLayer(coucheOSM);';
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
-		$output .= 'var tilesURL = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
-		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles",tilesURL,{attribution:"MapQuest, Open Street Map et leurs contributeurs, CC-BY-SA"});';
+		$output .= 'var tuiles = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles",tuiles,{attribution:"MapQuest, Open Street Map et leurs contributeurs, CC-BY-SA"});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
 	if($tiles == 'mapquest_aerial') // Fond de carte MapQuest Aerial
 	{
-		$output .= 'var tilesURL = ["http://oatile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];';
-		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tilesURL,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
+		$output .= 'var tuiles = ["http://oatile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tuiles,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
 	if($tiles == 'mapbox' AND filter_var($tiles_url,FILTER_VALIDATE_URL)) // Fond de carte MapBox
@@ -81,6 +80,14 @@ function openlayers_shortcode($attributs)
 		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
+	}
+	if($tiles == 'wms') //AND $tiles_proj != '' AND filter_var($tiles_url,FILTER_VALIDATE_URL))  // to-do : Fond de carte WMS
+	{
+		// $output .= 'var tuiles = ["'.$tiles_url.'"];';
+		// $output .= 'var coucheWMS = new OpenLayers.Layer.WMS("Fond de carte WMS",tuiles,{srs:"EPSG:'.$tiles_proj.'"});';
+		// $output .= 'map'.$id.'.addLayer(coucheWMS);';
+		$output .= 'var coucheWMS = new OpenLayers.Layer.WMS("DM Solutions Demo","http://www2.dmsolutions.ca/cgi-bin/mswms_gmap",{layers: "bathymetry"});';
+		$output .= 'map'.$id.'.addLayer(coucheWMS);';
 	}
 	// Style des figurés
 	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
@@ -307,8 +314,8 @@ function openlayers_shortcode($attributs)
 	{
 		$output .= '<style>';
 		$output .= '<!--';
-		$output .= '@import url("'.$path.'/js/theme/default/style.css");';
-		$output .= '@import url("'.$path.'/css/carto.css");';
+		$output .= '@import url("'.plugins_url().'/openlayers_shortcode/js/theme/default/style.css");';
+		$output .= '@import url("'.plugins_url().'/openlayers_shortcode/css/carto.css");';
 		$output .= '-->';
 		$output .= '</style>';
 	}
