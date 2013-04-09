@@ -27,4 +27,4 @@ Le plugin embarque deux librairies javascript externes au projet:
 
 ##Contact
 
-Adrien VAN HAMME - contact@adrienvh.fr - site web : [adrienvh.fr](http://adrienvh.fr/) - blog : [blog.adrienvh.fr](http://blog.adrienvh.fr/)
+Adrien VAN HAMME - contact@adrienvh.fr - site web : [adrienvh.fr](http://adrienvh.fr/) - blog : [blog.adrienvh.fr/categorie/cartographie](http://blog.adrienvh.fr/categorie/cartographie)

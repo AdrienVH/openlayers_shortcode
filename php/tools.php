@@ -71,9 +71,9 @@ function ols_activation() // To-do à l'activation du plugin (et non à l'instal
 	if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
 	if(!get_option('ols_long'))				{add_option('ols_long');}
 	if(!get_option('ols_champ_long'))		{add_option('ols_champ_long');}
-	if(!get_option('ols_wkt'))				{add_option('ols_wkt');}}
+	if(!get_option('ols_wkt'))				{add_option('ols_wkt');}
 	if(!get_option('ols_champ_wkt'))		{add_option('ols_champ_wkt');}
-	if(!get_option('ols_url'))				{add_option('ols_url');}}
+	if(!get_option('ols_url'))				{add_option('ols_url');}
 	if(!get_option('ols_champ_url'))		{add_option('ols_champ_url');}
 	if(!get_option('ols_proj'))			{add_option('ols_proj');}
 	if(!get_option('ols_center_long'))		{add_option('ols_center_long');}
