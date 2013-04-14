@@ -4,18 +4,17 @@ Listes des attributs disponibles avec le shortcode.
 
 ##id
 
-Explication :
-Valeur par défaut :
-Valeurs acceptées :
-
 <table>
-  <tr>
-    <th>ID</th><th>Name</th><th>Rank</th>
-  </tr>
-  <tr>
-    <td>1</td><td>Tom Preston-Werner</td><td>Awesome</td>
-  </tr>
-  <tr>
-    <td>2</td><td>Albert Einstein</td><td>Nearly as awesome</td>
-  </tr>
+	<tr>
+		<td>Explication</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Valeur par défaut</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Valeurs acceptées</td>
+		<td></td>
+	</tr>
 </table>
