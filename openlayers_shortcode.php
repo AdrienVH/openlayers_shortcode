@@ -5,19 +5,19 @@ Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
 Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapBox Streets, MapQuest et MapQuest Aerial). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les deux librairies JS Openlayers (2.12) et Wax (6.4.0).
 Author: Adrien VAN HAMME
 Author URI: http://adrienvh.fr/
-Version: 1.5.3
+Version: 2.0.0
 */
 require_once('php/tools.php');
 require_once('php/admin.php');
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////// SHORTCODE
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// SHORTCODE
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 add_shortcode('openlayers','openlayers_shortcode');
 function openlayers_shortcode($attributs)
 {
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////// CONFIGURATION
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CONFIGURATION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	extract(shortcode_atts(array(
 	'id'			=> get_option('ols_id'),
 	'debug'			=> get_option('ols_debug'),
@@ -52,14 +52,14 @@ function openlayers_shortcode($attributs)
 	),$attributs));
 	$erreur = false;
 	$message = 'Les erreurs suivantes ont été rencontrées :';
-	$output = '<div id="cartographie'.$id.'" class="cartographie" style="width:'.$width.';height:'.$height.';"></div>';
+	$output = '<div id="ols_carte'.$id.'" class="ols_carte" style="width:'.$width.';height:'.$height.';"></div>';
 	$output .= '<script>';
-	$output .= 'var map'.$id.' = new OpenLayers.Map("cartographie'.$id.'");';
+	$output .= 'var map'.$id.' = new OpenLayers.Map("ols_carte'.$id.'");';
 	$output .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////// TILES
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();'; // Fond de carte OSM
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 1. FOND DE CARTE
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	$output .= 'var coucheOSM = new OpenLayers.Layer.OSM();'; // Fond de carte OSM  / to-do : se passer d'OSM quand ce n'est pas le fond de carte demandé
 	$output .= 'map'.$id.'.addLayer(coucheOSM);';
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
@@ -81,234 +81,440 @@ function openlayers_shortcode($attributs)
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
 	}
-	// if($tiles == 'wms' AND $tiles_proj != '' AND filter_var($tiles_url,FILTER_VALIDATE_URL))  // to-do : Fond de carte WMS
-	// {
-		// $output .= 'var tuiles = ["'.$tiles_url.'"];';
-		// $output .= 'var coucheWMS = new OpenLayers.Layer.WMS("Fond de carte WMS",tuiles,{srs:"EPSG:'.$tiles_proj.'"});';
-		// $output .= 'map'.$id.'.addLayer(coucheWMS);';
-	// }
-	// Style des figurés
-	$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
-	$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////// MODE THIS
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*  to-do : Fond de carte WMS
+	if($tiles == 'wms' AND filter_var($tiles_url,FILTER_VALIDATE_URL) AND $tiles_proj != '')
+	{
+		$output .= 'var coucheWMS = new OpenLayers.Layer.WMS("Fond de carte WMS",'.$tiles_url.',{srs:"EPSG:'.$tiles_proj.'"});';
+		$output .= 'map'.$id.'.addLayer(coucheWMS);';
+	}
+	*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1 MODE THIS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if($mode == 'this')
 	{
-		// Récupération de l'id du post actuel
-		$id_this = get_the_ID();
-		// Détermination du label
-		if($champ_label == 'title')
+		$this_id = get_the_ID();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.2 LAT ET LONG
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		if($lat != '' AND $long != '') // Si des coordonnées sont indiquées
 		{
-			$p_label = get_the_title();
+			// Label
+			if($champ_label == 'this_title')
+				$label = get_the_title();
+			elseif($champ_label != '' AND get_post_meta($this_id,$champ_label,true) != '')
+				$label = get_post_meta($this_id,$champ_label,true);
+			// Style
+			$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+			$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+			// Layer
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			$output .= 'var entite = new OpenLayers.LonLat('.$long.','.$lat.');';
+			if($proj != '')
+				$output .= 'entite.transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+			$output .= 'var point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+			$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{ols_label:"'.$label.'"})]);';
+			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 		}
-		elseif($champ_label == '')
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.2 CHAMP_LAT ET CHAMP_LONG
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($champ_lat != '' AND $champ_long != '') // Si des champs personnalisés contenant des coordonnées sont indiqués
 		{
-			$p_label = ($label != '') ? $label : '' ;
-		}
-		elseif(get_post_meta($id_this,$champ_label,true) != '')
-		{
-			$p_label = get_post_meta($id_this,$champ_label,true);
-		}
-		// Création de la couche
-		if(filter_var($url,FILTER_VALIDATE_URL)) // Si une URL valide a été renseignée dans l'attribut "url"
-		{
-			$extension = substr(strrchr($url,'.'),1);
-			$extensions = array('gml','xml','geojson','json');
-			if(in_array($extension, $extensions)) // Si cette URL valide présente une extension qui correspond au GML et au GeoJSON
+			if(get_post_meta($this_id,$champ_lat,true) != '' OR get_post_meta($this_id,$champ_long,true) != '')
 			{
-				if		($extension == 'gml' OR $extension == 'xml'){$format = 'GML';}
-				elseif	($extension == 'geojson' OR $extension == 'json'){$format = 'GeoJSON';}
-				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:900913"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+				// Label
+				if($champ_label == 'this_title')
+					$label = get_the_title();
+				elseif($champ_label != '' AND get_post_meta($this_id,$champ_label,true) != '')
+					$label = get_post_meta($this_id,$champ_label,true);
+				// Style
+				$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+				$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+				// Layer
+				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+				$output .= 'var entite = new OpenLayers.LonLat('.get_post_meta($this_id,$champ_long,true).','.get_post_meta($this_id,$champ_lat,true).');';
+				if($proj != '')
+					$output .= 'entite.transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+				$output .= 'var point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+				$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{ols_label:"'.$label.'"})]);';
+				$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 			}
 			else
 			{
 				$erreur = true;
-				$message .= '<br />- D\'après l\'extension du fichier indiqué (attribut "url"), vos données ne sont ni au format GML, ni au format GeoJSON';
+				$message .= '<br />&bull; Au moins un des deux champs personnalisés "champ_lat" ('.$champ_lat.') et "champ_long" ('.$champ_long.') indiqués semble vide';
 			}
 		}
-		elseif($champ_wkt != '') // Si un champ personnalisé est indiqué pour représenter un objet WKT (to-do : tester si le WKT est valide)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.3 WKT
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($wkt != '') // Si une géométrie WKT est indiquée (to-do : tester si elle est valable)
 		{
-			$p_wkt = get_post_meta($id_this,$champ_wkt,true);
-			if($p_wkt != '') // remplacer par args sur meta key pour filtrer
-			{
-				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-				$output .= 'map'.$id.'.addLayer(couche'.$id.');';
-				$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-				$output .= 'couche'.$id.'.addFeatures(entite);';
-			}
-		}
-		elseif($wkt != '')  // Sinon, on se contente de la notation WKT "en dur" (to-do : tester si le WKT est valide avec une regexp)
-		{
+			// Label
+			if($champ_label == 'this_title')
+				$label = get_the_title();
+			elseif($champ_label != '' AND get_post_meta($this_id,$champ_label,true) != '')
+				$label = get_post_meta($this_id,$champ_label,true);
+			// Style
+			$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+			$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+			// Layer
 			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
-			$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$wkt.'"),{label:"'.$p_label.'"});';
+			$output .= 'var entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$wkt.'"),{ols_label:"'.$label.'"});';
+			// to-do : reprojection de la chaîne de caractères ? du Geometry ? du Vector ? du Layer ?
 			$output .= 'couche'.$id.'.addFeatures(entite);';
+			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 		}
-		elseif($champ_lat != '' AND $champ_long != '') // Sinon, si deux champs personnalisés sont indiqués pour représenter un point (to-do : tester s'ils sont valables)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.4 CHAMP_WKT
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($champ_wkt != '') // Si un champ personnalisé contenant une géométrie WKT est indiqué
 		{
-			$p_long = get_post_meta($id_this,$champ_long,true);
-			$p_lat = get_post_meta($id_this,$champ_lat,true);
-			if($p_long != '' AND $p_lat != '') // remplacer par args sur meta key pour filtrer
+			if(get_post_meta($this_id,$champ_wkt,true) != '')
 			{
+				// 4. Label
+				if($champ_label == 'this_title')
+					$label = get_the_title();
+				elseif($champ_label != '' AND get_post_meta($this_id,$champ_label,true) != '')
+					$label = get_post_meta($this_id,$champ_label,true);
+				// 3. Style
+				$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+				$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+				// Layer
 				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-				$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-				$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-				$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-				$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
+				$output .= 'var entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.get_post_meta($this_id,$champ_wkt,true).'"),{ols_label:"'.$label.'"});';
+				// to-do : reprojection de la chaîne de caractères ? du Geometry ? du Vector ? du Layer ?
+				$output .= 'couche'.$id.'.addFeatures(entite);';
+				$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+			}
+			else
+			{
+				$erreur = true;
+				$message .= '<br />&bull; Le champ personnalisé "champ_wkt" ('.$champ_wkt.') indiqué semble vide';
 			}
 		}
-		elseif($lat != '' AND $long != '') // Sinon, on se contente des coordonnées "en dur" pour représenter un point (to-do : tester si elles sont bien des numériques)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.5 URL
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($url != '') // Si une URL d'un fichier est indiquée
 		{
-			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-			$output .= 'entite = new OpenLayers.LonLat('.$long.','.$lat.');';
-			$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-			$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-			$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
-		}
-		else // Sinon on renvoie une erreur car il n'y a rien à représenter
-		{
-			$erreur = true;
-			$message .= '<br />- Les attributs n\'ont pas été correctement renseignés : aucune source de données valide n\'a été trouvée.';
-		}
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////// MODES POSTS, PAGES ET ALL
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	elseif($mode == 'posts' OR $mode == 'pages' OR $mode == 'all')
-	{
-		if($champ_lat != '' AND $champ_long != '') // Si des champs personnalisés sont bien indiqués (to-do : tester s'ils sont valables)
-		{
-			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-			if($mode == 'posts' OR $mode == 'all')
+			if(filter_var($url,FILTER_VALIDATE_URL))
 			{
-				$posts = get_posts(); // to-do : array('meta_key' => 'longitude,latitude')
-				foreach($posts as $post)
+				$extension = substr(strrchr($url,'.'),1);
+				$extensions = array('gml','xml','geojson','json');
+				if(in_array($extension, $extensions)) // Si cette URL valide présente une extension qui correspond au GML ou au GeoJSON
 				{
-					// Détermination du label
-					if($champ_label == 'title')
+					// Format
+					if($extension == 'gml' OR $extension == 'xml')
+						$format = 'GML';
+					elseif($extension == 'geojson' OR $extension == 'json')
+						$format = 'GeoJSON';
+					// Style / Label
+					if($champ_label != '')
 					{
-						$p_label = get_the_title($post->ID);
-					}
-					elseif($champ_label == '')
-					{
-						$p_label = ($label != '') ? $label : '' ;
-					}
-					elseif(get_post_meta($post->ID,$champ_label,true) != '')
-					{
-						$p_label = get_post_meta($post->ID,$champ_label,true);
-					}
-					// Récupération des coordonnées
-					$p_wkt = get_post_meta($post->ID,$champ_wkt,true);
-					if($p_wkt != '') // to-do : array('meta_key' => 'wkt')
-					{
-						$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-						$output .= 'map'.$id.'.addLayer(couche'.$id.');';
-						$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-						$output .= 'couche'.$id.'.addFeatures(entite);';
+						$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${'.$champ_label.'}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+						$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
 					}
 					else
 					{
-						$p_long = get_post_meta($post->ID,$champ_long,true);
-						$p_lat = get_post_meta($post->ID,$champ_lat,true);
-						if($p_long != '' AND $p_lat != '') // to-do : array('meta_key' => 'longitude,latitude')
-						{
-							$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-							$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-							$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
-						}
-						else // Sinon on renvoie une erreur car il n'y a rien à représenter
-						{
-							$erreur = true;
-							$message .= '<br />- Les attributs lat, long, wkt, champ_lat, champ_long et/ou champ_wkt n\'ont pas été correctement renseignés';
-						}
+						$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+						$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
 					}
+					// Layer
+					$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:'.$proj.'"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+				}
+				else
+				{
+					$erreur = true;
+					$message .= '<br />- D\'après l\'extension du fichier indiqué dans "url" ('.$url.'), vos données ne sont ni au format GML, ni au format GeoJSON';
 				}
 			}
-			if($mode == 'pages' OR $mode == 'all') // to-do : mutualiser les cas des pages et les cas des posts
+			else
 			{
-				$posts = get_pages(); // to-do : array('meta_key' => 'longitude,latitude')
-				foreach($posts as $post)
+				$erreur = true;
+				$message .= '<br />&bull; L\'adresse URL dans "url" ('.$url.') indiquée est invalide';
+			}
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.6 CHAMP_URL
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($champ_url != '') // Si un champ personnalisé contenant une URL d'un fichier est indiqué
+		{
+			if(filter_var(get_post_meta($this_id,$champ_url,true),FILTER_VALIDATE_URL))
+			{
+				$extension = substr(strrchr(get_post_meta($this_id,$champ_url,true),'.'),1);
+				$extensions = array('gml','xml','geojson','json');
+				if(in_array($extension, $extensions)) // Si cette URL valide présente une extension qui correspond au GML ou au GeoJSON
 				{
-					// Détermination du label
-					if($champ_label == 'title')
+					// Format
+					if($extension == 'gml' OR $extension == 'xml')
+						$format = 'GML';
+					elseif($extension == 'geojson' OR $extension == 'json')
+						$format = 'GeoJSON';
+					// Style / Label
+					if($champ_label != '')
 					{
-						$p_label = get_the_title($post->ID);
-					}
-					elseif($champ_label == '')
-					{
-						$p_label = ($label != '') ? $label : '' ;
-					}
-					elseif(get_post_meta($post->ID,$champ_label,true) != '')
-					{
-						$p_label = get_post_meta($post->ID,$champ_label,true);
-					}
-					// Récupération des coordonnées
-					$p_wkt = get_post_meta($post->ID,$champ_wkt,true);
-					if($p_wkt != '') // to-do : array('meta_key' => 'wkt')
-					{
-							$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
-							$output .= 'map'.$id.'.addLayer(couche'.$id.');';
-							$output .= 'entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.$p_wkt.'"),{label:"'.$p_label.'"});';
-							$output .= 'couche'.$id.'.addFeatures(entite);';
+						$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${'.$champ_label.'}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+						$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
 					}
 					else
 					{
-						$p_long = get_post_meta($post->ID,$champ_long,true);
-						$p_lat = get_post_meta($post->ID,$champ_lat,true);
-						if($p_long != '' AND $p_lat != '') // to-do : array('meta_key' => 'longitude,latitude')
-						{
-							$output .= 'entite = new OpenLayers.LonLat('.$p_long.','.$p_lat.');';
-							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
-							$output .= 'point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
-							$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{label:"'.$p_label.'"})]);';
-						}
-						else // Sinon on renvoie une erreur car il n'y a rien à représenter
-						{
-							$erreur = true;
-							$message .= '<br />- Les attributs lat, long, wkt, champ_lat, champ_long et/ou champ_wkt n\'ont pas été correctement renseignés';
-						}
+						$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+						$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
 					}
+					// Layer
+					$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.get_post_meta($this_id,$champ_url,true).'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:'.$proj.'"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+					$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 				}
+				else
+				{
+					$erreur = true;
+					$message .= '<br />- Le format du fichier indiqué dans le champ personnalisé n\'est pas du GML ou du GeoJSON';
+				}
+			}
+			else
+			{
+				$erreur = true;
+				$message .= '<br />&bull; L\'adresse URL indiquée dans le champ personnalisé est invalide';
 			}
 		}
 		else
 		{
 			$erreur = true;
-			$message .= '<br />- En mode "posts", "pages" ou "all", les attributs champ_lat et champ_long doivent être correctement renseignés';
+			$message .= '<br />&bull; Aucune source de donnée n\'a été indiquée';
 		}
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.2.1 CHAMP_LAT ET CHAMP_LONG
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	elseif($mode == 'posts' OR $mode == 'pages' OR $mode == 'all')
+	{
+		if($champ_lat != '' AND $champ_long != '')
+		{
+			// Style
+			$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+			$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+			// Layer
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			if($mode == 'posts' OR $mode == 'all')
+			{
+				foreach(get_posts() as $post)
+				{
+					if(get_post_meta($post->ID,$champ_long,true) != '' AND get_post_meta($post->ID,$champ_lat,true) != '')
+					{
+						// Label
+						if($champ_label == 'this_title')
+							$label = get_the_title($post->ID);
+						elseif($champ_label != '' AND get_post_meta($post->ID,$champ_label,true) != '')
+							$label = get_post_meta($post->ID,$champ_label,true);
+						// Layer
+						$output = 'var entite = new OpenLayers.LonLat('.get_post_meta($post->ID,$champ_long,true).','.get_post_meta($post->ID,$champ_lat,true).');';
+						if($proj != '')
+							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+						$output .= 'var point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+						$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{ols_label:"'.$label.'"})]);';
+					}
+				}
+			}
+			if($mode == 'pages' OR $mode == 'all')
+			{
+				foreach(get_pages() as $post)
+				{
+					if(get_post_meta($post->ID,$champ_long,true) != '' AND get_post_meta($post->ID,$champ_lat,true) != '')
+					{
+						// Label
+						if($champ_label == 'this_title')
+							$label = get_the_title($post->ID);
+						elseif($champ_label != '' AND get_post_meta($post->ID,$champ_label,true) != '')
+							$label = get_post_meta($post->ID,$champ_label,true);
+						// Layer
+						$output = 'var entite = new OpenLayers.LonLat('.get_post_meta($post->ID,$champ_long,true).','.get_post_meta($post->ID,$champ_lat,true).');';
+						if($proj != '')
+							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+						$output .= 'var point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+						$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{ols_label:"'.$label.'"})]);';
+					}
+				}
+			}
+			// Layer
+			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.2.2 CHAMP_WKT
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($champ_wkt != '')
+		{
+			$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+			if($mode == 'posts' OR $mode == 'all')
+			{
+				foreach(get_posts() as $post)
+				{
+					if(get_post_meta($post->ID,$champ_wkt,true) != '')
+					{
+						// Label
+						if($champ_label == 'this_title')
+							$label = get_the_title($post->ID);
+						elseif($champ_label != '' AND get_post_meta($post->ID,$champ_label,true) != '')
+							$label = get_post_meta($post->ID,$champ_label,true);
+						// Layer
+						$output = 'var entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.get_post_meta($post->ID,$champ_wkt,true).'"),{post_id:"'.$post->ID.'",ols_label:"'.$label.'"});';
+						// to-do : reprojection de la chaîne de caractères ? du Geometry ? du Vector ? du Layer ?
+						$output .= 'couche'.$id.'.addFeatures(entite);';
+					}
+				}
+			}
+			if($mode == 'pages' OR $mode == 'all')
+			{
+				foreach(get_pages() as $post)
+				{
+					if(get_post_meta($post->ID,$champ_wkt,true) != '')
+					{
+						// Label
+						if($champ_label == 'this_title')
+							$label = get_the_title($post->ID);
+						elseif($champ_label != '' AND get_post_meta($post->ID,$champ_label,true) != '')
+							$label = get_post_meta($post->ID,$champ_label,true);
+						// Layer
+						$output = 'var entite = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT("'.get_post_meta($post->ID,$champ_wkt,true).'"),{post_id:"'.$post->ID.'",ols_label:"'.$label.'"});';
+						// to-do : reprojection de la chaîne de caractères ? du Geometry ? du Vector ? du Layer ?
+						$output .= 'couche'.$id.'.addFeatures(entite);';
+					}
+				}
+			}
+			// Layer
+			$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.2.3 CHAMP_URL
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		elseif($champ_url != '')
+		{
+			if($mode == 'posts' OR $mode == 'all')
+			{
+				foreach(get_posts() as $post)
+				{
+					if(filter_var(get_post_meta($post->ID,$champ_url,true),FILTER_VALIDATE_URL))
+					{
+						$extension = substr(strrchr($url,'.'),1);
+						$extensions = array('gml','xml','geojson','json');
+						if(in_array($extension, $extensions))
+						{
+							// Format
+							if($extension == 'gml' OR $extension == 'xml')
+								$format = 'GML';
+							elseif($extension == 'geojson' OR $extension == 'json')
+								$format = 'GeoJSON';
+							// Style / Label
+							if($champ_label != '')
+							{
+								$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${'.$champ_label.'}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+								$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+							}
+							else
+							{
+								$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+								$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+							}
+							// Layer
+							$output .= 'var couche'.$id.'_'.$post->ID.' = new OpenLayers.Layer.Vector("Couche '.$id.' - '.$post->ID.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:'.$proj.'"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+							$output .= 'map'.$id.'.addLayer(couche'.$id.'_'.$post->ID.');';
+						}
+						else
+						{
+							$message .= '<br />- Le format du fichier indiqué dans le champ personnalisé n\'est pas du GML ou du GeoJSON';
+						}
+					}
+					else
+					{
+						$message .= '<br />&bull; L\'adresse URL indiquée dans le champ personnalisé est invalide';
+					}
+				}
+			}
+			if($mode == 'pages' OR $mode == 'all')
+			{
+				foreach(get_pages() as $post)
+				{
+					if(filter_var(get_post_meta($post->ID,$champ_url,true),FILTER_VALIDATE_URL))
+					{
+						$extension = substr(strrchr($url,'.'),1);
+						$extensions = array('gml','xml','geojson','json');
+						if(in_array($extension, $extensions))
+						{
+							// Format
+							if($extension == 'gml' OR $extension == 'xml')
+								$format = 'GML';
+							elseif($extension == 'geojson' OR $extension == 'json')
+								$format = 'GeoJSON';
+							// Style / Label
+							if($champ_label != '')
+							{
+								$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${'.$champ_label.'}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+								$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+							}
+							else
+							{
+								$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+								$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+							}
+							// Layer
+							$output .= 'var couche'.$id.'_'.$post->ID.' = new OpenLayers.Layer.Vector("Couche '.$id.' - '.$post->ID.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:'.$proj.'"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+							$output .= 'map'.$id.'.addLayer(couche'.$id.'_'.$post->ID.');';
+						}
+						else
+						{
+							$message .= '<br />- Le format du fichier indiqué dans le champ personnalisé n\'est pas du GML ou du GeoJSON';
+						}
+					}
+					else
+					{
+						$message .= '<br />&bull; L\'adresse URL indiquée dans le champ personnalisé est invalide';
+					}
+				}
+			}
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// FIN 2.2 MODES POSTS, PAGES ET ALL
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		else
+		{
+			$erreur = true;
+			$message .= '<br />&bull; Aucune source de donnée n\'a été indiquée';
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// FIN 2. MODES
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 	else
 	{
 		$erreur = true;
-		$message .= '<br />- Le mode que vous avez choisi est inconnu (valeurs acceptées : "this", "posts", "pages" ou "all")';
+		$message .= '<br />&bull; Aucun mode n\'a été indiqué';
 	}
-	$output .= 'map'.$id.'.addLayer(couche'.$id.');'; // to-do : risque d'erreur js objet non déclaré
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////// CENTRAGE
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($center_lat != '' AND $center_long != '') // to-do : tester si numérique
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 6. CENTRAGE ET ZOOM
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if($center_lat != '' AND $center_long != '' AND $center_zoom != '')
 	{
-		$output .= 'center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
+		if($proj != '')
+			$output .= 'var center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+		else
+			$output .= 'var center = new OpenLayers.LonLat('.$center_long.','.$center_lat.');';
 		$output .= 'map'.$id.'.setCenter(center,'.$zoom.');';
 	}
 	else
 	{
 		$output .= 'map'.$id.'.zoomToExtent(couche'.$id.'.getDataExtent());';
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////// FOND DE CARTE
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($tiles != 'osm')
+	// FIN
+	if($tiles != 'osm') // to-do : se passer d'OSM quand ce n'est pas le fond de carte demandé
 	{
 		$output .= 'map'.$id.'.removeLayer(coucheOSM);';
 	}
 	$output .= '</script>';
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////////////////////////////// FEUILLES CSS
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($id <= 1 OR !is_numeric($id)) // Si $id vaut bien 1 ou si on a un doute (inf. à 1 ? non numérique ?) / to-do : charger une seule fois (cf. ébauche de fonction dans ols_functions.php)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// FEUILLES CSS
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	if($id <= 1 OR !is_numeric($id)) // to-do : charger une seule fois (cf. ébauche de fonction dans ols_functions.php)
 	{
 		$output .= '<style>';
 		$output .= '<!--';
@@ -317,9 +523,10 @@ function openlayers_shortcode($attributs)
 		$output .= '-->';
 		$output .= '</style>';
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////// OUTPUT
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// OUTPUT
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	if($erreur == true AND $debug == 'oui') // S'il y a au moins une erreur et que le mode "debug" est activé
 	{
 		return $message;

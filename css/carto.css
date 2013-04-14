@@ -1,28 +1,28 @@
-div.cartographie
+div.ols_carte
 {
 	margin:0 0 15px 0;
 	padding:0;
 	border:none;
 }
 
-div.cartographie *, div.cartographie img
+div.ols_carte *, div.ols_carte img
 {
 	border:none;
 }
 
-div.cartographie a, div.cartographie a:link, div.cartographie a:active, div.cartographie a:visited
+div.ols_carte a, div.ols_carte a:link, div.ols_carte a:active, div.ols_carte a:visited
 {
 	text-decoration:none;
 }
 
-div.cartographie .olControlAttribution
+div.ols_carte .olControlAttribution
 {
 	position:absolute;
 	right:6px;
 	bottom:6px;
 }
 
-div.cartographie .olControlAttribution
+div.ols_carte .olControlAttribution
 {
 	color:grey;
 	font-style:normal;
@@ -31,7 +31,7 @@ div.cartographie .olControlAttribution
 	text-decoration:none;
 }
 
-div.cartographie .olControlAttribution a, .olControlAttribution a:link, .olControlAttribution a:active, .olControlAttribution a:visited
+div.ols_carte .olControlAttribution a, div.ols_carte .olControlAttribution a:link, div.ols_carte .olControlAttribution a:active, div.ols_carte .olControlAttribution a:visited
 {
 	color:grey;
 	font-style:normal;
@@ -40,7 +40,7 @@ div.cartographie .olControlAttribution a, .olControlAttribution a:link, .olContr
 	text-decoration:none;
 }
 
-div.cartographie .olControlAttribution a:hover
+div.ols_carte .olControlAttribution a:hover
 {
 	text-decoration:underline;
 }

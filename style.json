@@ -1,0 +1,23 @@
+{
+	"type":"equal",
+	"champ":"nom_champ",
+	"rules":
+	[
+		{"value":"","fillcolor":"","strokecolor":""},
+		{"value":"","fillcolor":"","strokecolor":""},
+		{"value":"","fillcolor":"","strokecolor":""},
+		{"value":"","fillcolor":"","strokecolor":""}
+	]
+}
+
+{
+	"type":"range",
+	"champ":"nom_champ",
+	"rules":
+	[
+		{"max":"","fillcolor":"","strokecolor":""},
+		{"min":"","max":"","fillcolor":"","strokecolor":""},
+		{"min":"","max":"","fillcolor":"","strokecolor":""},
+		{"min":"","fillcolor":"","strokecolor":""}
+	]
+}

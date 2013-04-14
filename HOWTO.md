@@ -115,13 +115,15 @@ En cours de rédaction...
 
 En cours de rédaction...
 
-##5. Reprojection des données à la volée (en cours de développement)
+##5. Reprojection des données à la volée
 
 Vous pouvez demander à ce que vos données soient reprojetées en indiquant dans quelle projection elles se trouvaient initialement (via le code EPSG de cette projection) :
 
 - `[openlayers proj="..."]`
 
 Vos données seront alors reprojetées à la volée dans la projection "Google Mercator" (EPSG:3857, anciennement 3875 et 900913). Pour plus d'informations sur la notation EPSG, consultez le site [spatialreference.org](http://www.spatialreference.org/).
+
+*Attention : cette fonctionnalité n'est pas disponible pour l'utilisation des sources de données "wkt" et "champ_wkt" (cf. 2.1.3, 2.1.4 et 2.2.2) !*
 
 ##6. Centrage et zoom
 
