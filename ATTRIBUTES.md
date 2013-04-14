@@ -36,6 +36,8 @@ Listes des attributs disponibles avec le shortcode.
 	</tr>
 </table>
 
+`non`,`oui`
+
 ##width
 
 <table>
