@@ -32,7 +32,7 @@ Listes des attributs disponibles avec le shortcode.
 	</tr>
 	<tr>
 		<td>Valeurs acceptées</td>
-		<td>`non``oui`</td>
+		<td>`non`,`oui`</td>
 	</tr>
 </table>
 
