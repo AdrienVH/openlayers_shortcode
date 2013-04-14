@@ -21,22 +21,11 @@ Listes des attributs disponibles avec le shortcode.
 
 ##debug
 
-<table>
-	<tr>
-		<td>Explication</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>Valeur par défaut</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>Valeurs acceptées</td>
-		<td>`non`,`oui`</td>
-	</tr>
-</table>
+Utilité :
 
-`non`,`oui`
+Valeur par défaut
+
+Valeurs acceptées : `non`,`oui`
 
 ##width
 
