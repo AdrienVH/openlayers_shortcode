@@ -4,11 +4,9 @@ Listes des attributs disponibles avec le shortcode.
 
 ##id
 
-Utilité : Identifiant (unique) de la carte
-
-Valeur par défaut : `1`
-
-Valeurs acceptées : Nombres entiers de `1` à `n`
+- Utilité : Identifiant (unique) de la carte
+- Valeur par défaut : `1`
+- Valeurs acceptées : Nombres entiers de `1` à `n`
 
 ##debug
 
@@ -142,9 +140,10 @@ Utilité : Latitude du point sur lequel la carte doit se centrer
 
 Valeur par défaut : -
 
-Valeurs acceptées :  Nombres (avec le point comme séparateur décimal)
+Valeurs acceptées : Nombres (avec le point comme séparateur décimal)
 
 /!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
+
 /!\ : Si vous avez renseigné l'attribut "proj", ces coordonnées seront aussi reprojetées
 
 ##center_long
@@ -153,9 +152,10 @@ Utilité : Longitude du point sur lequel la carte doit se centrer
 
 Valeur par défaut : -
 
-Valeurs acceptées :  Nombres (avec le point comme séparateur décimal)
+Valeurs acceptées : Nombres (avec le point comme séparateur décimal)
 
 /!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
+
 /!\ : Si vous avez renseigné l'attribut "proj", ces coordonnées seront aussi reprojetées
 
 ##zoom
@@ -164,6 +164,94 @@ Utilité : Niveau de zoom sur lequel la carte doit se centrer
 
 Valeur par défaut : `15`
 
-Valeurs acceptées :   Nombres entiers de `1` à `n`
+Valeurs acceptées : Nombres entiers de `1` à `n`
 
 /!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
+
+##label
+
+Utilité : 
+
+Valeur par défaut : -
+
+Valeurs acceptées : 
+
+##champ_label
+
+Utilité : 
+
+Valeur par défaut : -
+
+Valeurs acceptées :
+
+##pointradius
+
+Utilité : 
+
+Valeur par défaut : `5`
+
+Valeurs acceptées : 
+
+##strokewidth
+
+Utilité : 
+
+Valeur par défaut : `1`
+
+Valeurs acceptées : 
+
+##strokecolor
+
+Utilité : 
+
+Valeur par défaut : 
+
+Valeurs acceptées : #000000`
+
+##strokeopacity
+
+Utilité : 
+
+Valeur par défaut : `1`
+
+Valeurs acceptées : 
+
+##fillcolor
+
+Utilité : 
+
+Valeur par défaut : `#36b7d1`
+
+Valeurs acceptées : 
+
+##fillopacity
+
+Utilité : 
+
+Valeur par défaut : 
+
+Valeurs acceptées : 
+
+##labeloffset
+
+Utilité : 
+
+Valeur par défaut : `10`
+
+Valeurs acceptées : 
+
+##fontweight
+
+Utilité : 
+
+Valeur par défaut : `bold`
+
+Valeurs acceptées : 
+
+##fontsize
+
+Utilité : 
+
+Valeur par défaut : `12px`
+
+Valeurs acceptées : 
