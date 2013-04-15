@@ -16,7 +16,7 @@ Utilité : Mode permettant d'afficher des mesages d'erreur
 
 Valeur par défaut : `non`
 
-Valeurs acceptées : `non`, `oui`
+Valeurs acceptées : `non` `oui`
 
 ##width
 
@@ -40,12 +40,130 @@ Utilité : Définition de la source de données
 
 Valeur par défaut : `this`
 
-Valeurs acceptées : `this` (cette page/article), `posts` (les articles), `pages` (les pages), et `all` (articles et pages)
+Valeurs acceptées : `this` (cette page/article) `posts` (les articles) `pages` (les pages) et `all` (articles et pages)
 
 ##tiles
 
-Utilité : Fond de carte 
+Utilité : Fond de carte
 
 Valeur par défaut : `mapquest`
 
-Valeurs acceptées : `mapquest`, `mapquest_aerial`, `osm`, `mapbox` (à utiliser avec l'attribut `tiles_url`)
+Valeurs acceptées : `mapquest` `mapquest_aerial` `osm` et `mapbox`
+
+/!\ : `mapbox` requiert de renseigner l'attribut "tiles_url"
+
+##tiles_url
+
+Utilité : Certains fonds de carte (attribut "tiles") requièrent de renseigner une URL (`mapbox` par ex.)
+
+Valeur par défaut : -
+
+Valeurs acceptées : Adresses URL valides
+
+##lat
+
+Utilité : Latitude d'un point à représenter
+
+Valeur par défaut : 
+
+Valeurs acceptées : Nombres (avec le point comme séparateur décimal)
+
+##long
+
+Utilité : Longitude d'un point à représenter
+
+Valeur par défaut : 
+
+Valeurs acceptées : Nombres (avec le point comme séparateur décimal)
+
+##champ_lat
+
+Utilité : Nom formalisé (slug) du champ personnalisé contenant la latitude du ou des points à représenter
+
+Valeur par défaut : -
+
+Valeurs acceptées : Slugs de vos champs personnalisés
+
+##champ_long
+
+Utilité : Nom formalisé (slug) du champ personnalisé contenant la latitude du ou des points à représenter
+
+Valeur par défaut : -
+
+Valeurs acceptées : Slugs de vos champs personnalisés
+
+##wkt
+
+Utilité : Notation WKT (EPSG:3857) de la géométrie que vous voulez représenter
+
+Valeur par défaut : -
+
+Valeurs acceptées : Notations WKT valides
+
+/!\ : L'attribut "proj" n'est pas compatible avec cette source de données
+
+##champ_wkt
+
+Utilité : Nom formalisé (slug) du champ personnalisé contenant la latitude du ou des points à représenter
+
+Valeur par défaut : -
+
+Valeurs acceptées : Slugs de vos champs personnalisés
+
+##url
+
+Utilité : 
+
+Valeur par défaut : 
+
+Valeurs acceptées : 
+
+##champ_url
+
+Utilité :  Nom formalisé (slug) du champ personnalisé contenant l'URL du fichier à charger
+
+Valeur par défaut : -
+
+Valeurs acceptées : Slugs de vos champs personnalisés
+
+/!\ : Le ou les fichiers à charger doivent être au format GeoJSON ou au format GML
+
+##proj
+
+Utilité : Système de projection de vos données (si différent du de l'EPSG:3857)
+
+Valeur par défaut : `4326` (WGS 84)
+
+Valeurs acceptées : Codes EPSG valides
+
+##center_lat
+
+Utilité : Latitude du point sur lequel la carte doit se centrer
+
+Valeur par défaut : -
+
+Valeurs acceptées :  Nombres (avec le point comme séparateur décimal)
+
+/!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
+/!\ : Si vous avez renseigné l'attribut "proj", ces coordonnées seront aussi reprojetées
+
+##center_long
+
+Utilité : Longitude du point sur lequel la carte doit se centrer
+
+Valeur par défaut : -
+
+Valeurs acceptées :  Nombres (avec le point comme séparateur décimal)
+
+/!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
+/!\ : Si vous avez renseigné l'attribut "proj", ces coordonnées seront aussi reprojetées
+
+##zoom
+
+Utilité : Niveau de zoom sur lequel la carte doit se centrer
+
+Valeur par défaut : `15`
+
+Valeurs acceptées :   Nombres entiers de `1` à `n`
+
+/!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
