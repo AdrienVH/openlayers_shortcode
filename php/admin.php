@@ -133,7 +133,7 @@ function ols_add_menu()
 					echo '<h3>Auteur</h3>';
 					echo '<div class="inside">';
 						echo '<img src="'.plugins_url().'/openlayers_shortcode/img/avatar.jpg" alt="Avatar" style="float:left;margin:0 10px 0 0;" />';
-						echo '<p><a href="http://adrienvh.fr" target="_blank">Adrien VAN HAMME</a></p>';
+						echo '<p><a href="http://adrienvh.fr" target="_blank">Adrien Van Hamme</a></p>';
 						echo '<p>Mail : <a href="mailto:contact@adrienvh.fr">contact@adrienvh.fr</a></p>';
 						echo '<div class="clear"></div>';
 						echo '<p>Twitter : <a href="http://twitter.com/adrienvh" target="_blank">adrienvh</a></p>';

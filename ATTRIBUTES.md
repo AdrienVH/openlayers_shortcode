@@ -174,7 +174,7 @@ Listes des attributs disponibles avec le shortcode.
 
 - Utilité : 
 - Valeur par défaut : 
-- Valeurs acceptées : #000000`
+- Valeurs acceptées : `#000000`
 
 ##strokeopacity
 
