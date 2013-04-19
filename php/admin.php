@@ -24,6 +24,8 @@ function ols_add_menu()
 			if(get_option('ols_mode') != $_POST['ols_mode'])					{update_option('ols_mode',			$_POST['ols_mode']);}
 			if(get_option('ols_tiles') != $_POST['ols_tiles'])					{update_option('ols_tiles',			$_POST['ols_tiles']);}
 			if(get_option('ols_tiles_url') != $_POST['ols_tiles_url'])			{update_option('ols_tiles_url',		$_POST['ols_tiles_url']);}
+			if(get_option('ols_tiles_key') != $_POST['ols_tiles_key'])			{update_option('ols_tiles_key',		$_POST['ols_tiles_key']);}
+			if(get_option('ols_tiles_layer') != $_POST['ols_tiles_layer'])		{update_option('ols_tiles_layer',	$_POST['ols_tiles_layer']);}
 			if(get_option('ols_champ_lat') != $_POST['ols_champ_lat'])			{update_option('ols_champ_lat',		$_POST['ols_champ_lat']);}
 			if(get_option('ols_champ_long') != $_POST['ols_champ_long'])		{update_option('ols_champ_long',	$_POST['ols_champ_long']);}
 			if(get_option('ols_champ_wkt') != $_POST['ols_champ_wkt'])			{update_option('ols_champ_wkt',		$_POST['ols_champ_wkt']);}
@@ -54,6 +56,8 @@ function ols_add_menu()
 			delete_option('ols_mode');
 			delete_option('ols_tiles');
 			delete_option('ols_tiles_url');
+			delete_option('ols_tiles_key');
+			delete_option('ols_tiles_layer');
 			delete_option('ols_lat');
 			delete_option('ols_champ_lat');
 			delete_option('ols_long');
@@ -85,6 +89,8 @@ function ols_add_menu()
 			if(!get_option('ols_mode'))				{add_option('ols_mode','this');}
 			if(!get_option('ols_tiles'))			{add_option('ols_tiles','mapquest');}
 			if(!get_option('ols_tiles_url'))		{add_option('ols_tiles_url');}
+			if(!get_option('ols_tiles_key'))		{add_option('ols_tiles_url');}
+			if(!get_option('ols_tiles_layer'))		{add_option('ols_tiles_layer');}
 			if(!get_option('ols_lat'))				{add_option('ols_lat');}
 			if(!get_option('ols_champ_lat'))		{add_option('ols_champ_lat');}
 			if(!get_option('ols_long'))				{add_option('ols_long');}
@@ -119,7 +125,7 @@ function ols_add_menu()
 					echo '<div class="inside">';
 						echo '<p>Nom : <a href="http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode/" target="_blank">Openlayers Shortcode</a></p>';
 						echo '<p>Shortcode lié : [openlayers attr="val"]</p>';
-						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.1.2.2.zip">1.2.2</a> (31/07/2012)</p>';
+						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.2.1.1.zip">2.1.1</a> (19/04/2013)</p>';
 						echo '<p>Librairies JS : <a href="http://openlayers.org/" target="_blank">Openlayers</a> (2.12) + <a href="http://mapbox.com/wax/" target="_blank">Wax</a> (6.4.0)</p>';
 					echo '</div>';
 				echo '</div>';
@@ -145,6 +151,9 @@ function ols_add_menu()
 							echo '<li>zoom</li>';
 							echo '<li>mode</li>';
 							echo '<li>tiles</li>';
+							echo '<li>tiles_url</li>';
+							echo '<li>tiles_key</li>';
+							echo '<li>tiles_layer</li>';
 							echo '<li class="no">lat</li>';
 							echo '<li>champ_lat</li>';
 							echo '<li class="no">long</li>';
@@ -212,7 +221,7 @@ function ols_add_menu()
 										echo '<th scope="row">Fond de carte<br /><b>tiles</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles">';
-												$vals = array('mapquest','mapquest_aerial','osm','mapbox');
+												$vals = array('mapquest','mapquest_aerial','osm','bing','mapbox');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles'))
@@ -225,7 +234,30 @@ function ols_add_menu()
 										echo '</td>';
 									echo '</tr>';
 									echo '<tr valign="top">';
-										echo '<th scope="row">Adresse URL du fond de carte <br /><b>tiles_url</b></th>';
+										echo '<th scope="row">Clef d\'API pour les fonds de carte Bing Maps<br /><b>tiles_key</b></th>';
+										echo '<td>';
+											echo '<input type="text" value="'.get_option('ols_tiles_key').'" name="ols_tiles_key" />';
+											echo '<p>- pas de valeur initiale</p>';
+										echo '</td>';
+									echo '</tr>';
+									echo '<tr valign="top">';
+										echo '<th scope="row">Couche à utiliser pour les fonds de carte Bing Maps<br /><b>tiles_layer</b></th>';
+										echo '<td>';
+											echo '<select name="ols_tiles_layer">';
+												$vals = array('road','hybrid','aerial');
+												foreach($vals as $val)
+												{
+													if($val == get_option('ols_tiles_layer'))
+														echo '<option value="'.$val.'" selected="selected">'.$val.'</option>';
+													else
+														echo '<option value="'.$val.'">'.$val.'</option>';
+												}
+											echo '</select>';
+											echo '<p>- pas de valeur initiale</p>';
+										echo '</td>';
+									echo '</tr>';
+									echo '<tr valign="top">';
+										echo '<th scope="row">Adresse URL du fond de carte Mapbox<br /><b>tiles_url</b></th>';
 										echo '<td>';
 											echo '<input type="text" value="'.get_option('ols_tiles_url').'" name="ols_tiles_url" />';
 											echo '<p>- pas de valeur initiale</p>';
