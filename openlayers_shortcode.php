@@ -2,10 +2,10 @@
 /*
 Plugin Name: Openlayers Shortcode
 Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
-Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapBox, Bing, MapQuest et MapQuest Aerial). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les deux librairies JS Openlayers (2.12) et Wax (6.4.0).
+Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapQuest, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les librairies JS Openlayers (2.12), Wax (6.4.0) et Google Maps (3.x).
 Author: Adrien Van Hamme
 Author URI: http://adrienvh.fr/
-Version: 2.1.1
+Version: 2.1.5
 */
 require_once('php/tools.php');
 require_once('php/admin.php');
@@ -83,7 +83,7 @@ function openlayers_shortcode($attributs)
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
 	}
-	if($tiles == 'bing' AND $tiles_key != '' AND $tiles_layer != '')
+	if($tiles == 'bing' AND $tiles_key != '' AND $tiles_layer != '') // Fond de carte Bing Maps
 	{
 		if($tiles_layer == 'road')
 		{
@@ -103,6 +103,31 @@ function openlayers_shortcode($attributs)
 			$message .= '<br />&bull; Vous n\'avez pas indiquée de couche Bing valide à afficher (couche "aerial" affichée par défaut)';
 		}
 		$output .= 'map'.$id.'.addLayer(coucheB);';
+	}
+	if($tiles == 'google' AND $tiles_layer != '') // Fond de carte Google Maps
+	{
+		if($tiles_layer == 'road')
+		{
+			$output .= 'var coucheG = new OpenLayers.Layer.Google("'.$tiles_layer.'",{type:google.maps.MapTypeId.ROADMAP ,numZoomLevels:22});';
+		}
+		elseif($tiles_layer == 'hybrid')
+		{
+			$output .= 'var coucheG = new OpenLayers.Layer.Google("'.$tiles_layer.'",{type:google.maps.MapTypeId.HYBRID ,numZoomLevels:22});';
+		}
+		elseif($tiles_layer == 'aerial')
+		{
+			$output .= 'var coucheG = new OpenLayers.Layer.Google("'.$tiles_layer.'",{type:google.maps.MapTypeId.SATELLITE,numZoomLevels:22});';
+		}
+		elseif($tiles_layer == 'terrain')
+		{
+			$output .= 'var coucheG = new OpenLayers.Layer.Google("'.$tiles_layer.'",{type:google.maps.MapTypeId.TERRAIN,numZoomLevels:16});';
+		}
+		else
+		{
+			$output .= 'var coucheG = new OpenLayers.Layer.Google("'.$tiles_layer.'",{type:google.maps.MapTypeId.SATELLITE,numZoomLevels:22});';
+			$message .= '<br />&bull; Vous n\'avez pas indiquée de couche Google valide à afficher (couche "aerial" affichée par défaut)';
+		}
+		$output .= 'map'.$id.'.addLayer(coucheG);';
 	}
 	/*  to-do : Fond de carte WMS
 	if($tiles == 'wms' AND filter_var($tiles_url,FILTER_VALIDATE_URL) AND $tiles_proj != '')

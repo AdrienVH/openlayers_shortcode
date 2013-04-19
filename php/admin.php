@@ -221,7 +221,7 @@ function ols_add_menu()
 										echo '<th scope="row">Fond de carte<br /><b>tiles</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles">';
-												$vals = array('mapquest','mapquest_aerial','osm','bing','mapbox');
+												$vals = array('mapquest','mapquest_aerial','osm','bing','google','mapbox');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles'))
@@ -241,10 +241,10 @@ function ols_add_menu()
 										echo '</td>';
 									echo '</tr>';
 									echo '<tr valign="top">';
-										echo '<th scope="row">Couche à utiliser pour les fonds de carte Bing Maps<br /><b>tiles_layer</b></th>';
+										echo '<th scope="row">Couche à utiliser pour les fonds de carte Bing Maps et Google Maps<br /><b>tiles_layer</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles_layer">';
-												$vals = array('road','hybrid','aerial');
+												$vals = array('road','hybrid','aerial','terrain');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles_layer'))

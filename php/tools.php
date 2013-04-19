@@ -19,6 +19,7 @@ function enqueue_ols_js()
 				$path = plugins_url().'/openlayers_shortcode/js';
 				wp_enqueue_script('ols_js_openlayers', $path.'/openlayers.js', null, null, false);
 				wp_enqueue_script('ols_js_wax', $path.'/wax.ol.js', null, null, false);
+				wp_enqueue_script('ols_js_google', 'http://maps.googleapis.com/maps/api/js?v=3&sensor=true', null, null, false);
 				$return = true;
 				break; // On arrête de boucler sur les résultats car on a trouvé ce que l'on cherchait
 			}
