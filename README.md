@@ -20,10 +20,10 @@ Le plugin embarque deux librairies javascript externes au projet:
 ##Évolutions futures
 
 - Personnalisation de l’icône d'un marker, en indiquant l’URL d'une image par exemple
-- Possibilité de charger des données dans d’autres projections que le 900913, en indiquant un code EPSG
+- Possibilité de charger un fichier XLS/XLSX/CSV contenant des coordonnées
 - Amélioration des feuilles et propriétés CSS
 - Refonte du chargement des feuilles et propriétés CSS
-- Intégration d’autres fonds de carte (sans fin)
+- Intégration d’autres fonds de carte (WMS avec tiles_url et tiles_proj, Google avec tiles_key et tiles_layer, etc.)
 
 ##Contact
 

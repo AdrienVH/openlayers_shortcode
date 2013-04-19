@@ -5,7 +5,7 @@ Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
 Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapBox Streets, MapQuest et MapQuest Aerial). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les deux librairies JS Openlayers (2.12) et Wax (6.4.0).
 Author: Adrien VAN HAMME
 Author URI: http://adrienvh.fr/
-Version: 2.0.0
+Version: 2.1.0
 */
 require_once('php/tools.php');
 require_once('php/admin.php');
@@ -27,6 +27,8 @@ function openlayers_shortcode($attributs)
 	'mode'			=> get_option('ols_mode'),
 	'tiles'			=> get_option('ols_tiles'),
 	'tiles_url'		=> get_option('ols_tiles_url'),
+	'tiles_key'		=> get_option('ols_tiles_key'),
+	'tiles_layer'	=> get_option('ols_tiles_layer'),
 	'lat'			=> get_option('ols_lat'),
 	'champ_lat'		=> get_option('ols_champ_lat'),
 	'long'			=> get_option('ols_long'),
@@ -80,6 +82,27 @@ function openlayers_shortcode($attributs)
 		$output .= 'coucheMB = new wax.ol.connector(tilejson);';
 		$output .= 'map'.$id.'.addLayer(coucheMB);';
 		$output .= '});';
+	}
+	if($tiles == 'bing' AND $tiles_key != '' AND $tiles_layer != '')
+	{
+		if($tiles_layer == 'road')
+		{
+			$output .= 'var coucheB = new OpenLayers.Layer.Bing({name:"'.$tiles_layer.'",key:"'.$tiles_key.'",type:"Road"});';
+		}
+		elseif($tiles_layer == 'hybrid')
+		{
+			$output .= 'var coucheB = new OpenLayers.Layer.Bing({name:"'.$tiles_layer.'",key:"'.$tiles_key.'",type:"AerialWithLabels"});';
+		}
+		elseif($tiles_layer == 'aerial')
+		{
+			$output .= 'var coucheB = new OpenLayers.Layer.Bing({name:"'.$tiles_layer.'",key:"'.$tiles_key.'",type:"Aerial"});';
+		}
+		else
+		{
+			$output .= 'var coucheB = new OpenLayers.Layer.Bing({name:"'.$tiles_layer.'",key:"'.$tiles_key.'",type:"Aerial"});';
+			$message .= '<br />&bull; Vous n\'avez pas indiquée de couche Bing valide à afficher (couche "aerial" affichée par défaut)';
+		}
+		$output .= 'map'.$id.'.addLayer(coucheB);';
 	}
 	/*  to-do : Fond de carte WMS
 	if($tiles == 'wms' AND filter_var($tiles_url,FILTER_VALIDATE_URL) AND $tiles_proj != '')

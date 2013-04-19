@@ -29,9 +29,13 @@ Vous pouvez choisir le fond de carte de vos cartes en renseignant l'attribut "ti
 
 Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
+- `[openlayers tiles="bing" tiles_key="..." tiles_layer="..."]` : Fond de carte Bing Maps
+
+Pour utiliser les fonds de carte Bing Maps vous devez en plus indiquer [votre clef d'API Bing Maps](http://bingmapsportal.com/) dans l'attribut "tiles_key" et la couche désirée (`road`, `hybrid` ou `aerial`) dans l'attribut "tiles_layer".
+
 - `[openlayers tiles="mapbox" tiles_url="..."]` : Fond de carte hébergé par votre compte [Mapbox](http://mapbox.com/) personnel
 
-Pour utiliser ce type de fond de carte, vous devez en plus indiquer l'URL (ex : tiles.mapbox.com/v3/pseudo.titre-carte.jsonp) du fichier `.jsonp` généré par Mapbox (via l'attribut "tiles_url").
+Pour utiliser une de fond de carte Mapbox, vous devez en plus indiquer l'URL (ex : tiles.mapbox.com/v3/pseudo.idcarte.jsonp) du fichier JSONP servi par Mapbox (dans l'attribut "tiles_url").
 
 ##2.1 Source de donnée : mode "this"
 
