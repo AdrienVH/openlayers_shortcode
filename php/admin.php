@@ -125,7 +125,7 @@ function ols_add_menu()
 					echo '<div class="inside">';
 						echo '<p>Nom : <a href="http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode/" target="_blank">Openlayers Shortcode</a></p>';
 						echo '<p>Shortcode lié : [openlayers attr="val"]</p>';
-						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.2.1.1.zip">2.1.1</a> (19/04/2013)</p>';
+						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.2.1.7.zip">2.1.7</a> (20/04/2013)</p>';
 						echo '<p>Librairies JS : <a href="http://openlayers.org/" target="_blank">Openlayers</a> (2.12) + <a href="http://mapbox.com/wax/" target="_blank">Wax</a> (6.4.0)</p>';
 					echo '</div>';
 				echo '</div>';

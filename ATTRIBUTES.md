@@ -144,7 +144,7 @@ Listes des attributs disponibles avec le shortcode.
 
 - Utilité : Niveau de zoom sur lequel la carte doit se centrer
 - Valeur par défaut : `15`
-- Valeurs acceptées : Nombres entiers de `1` à `n`
+- Valeurs acceptées : Nombres entiers de `1` à `22`
 
 /!\ : Si "center_lat", "center_long" et "zoom" ne sont pas correctement renseignés, la carte sera centrée sur les données qui la composent
 

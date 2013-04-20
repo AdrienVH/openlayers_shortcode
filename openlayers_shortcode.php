@@ -5,7 +5,7 @@ Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
 Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapQuest, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les librairies JS Openlayers (2.12), Wax (6.4.0) et Google Maps (3.x).
 Author: Adrien Van Hamme
 Author URI: http://adrienvh.fr/
-Version: 2.1.5
+Version: 2.1.7
 */
 require_once('php/tools.php');
 require_once('php/admin.php');
@@ -271,6 +271,7 @@ function openlayers_shortcode($attributs)
 					}
 					// Layer
 					$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{protocol:new OpenLayers.Protocol.HTTP({url:"'.$url.'",format:new OpenLayers.Format.'.$format.'()}),projection:new OpenLayers.Projection("EPSG:'.$proj.'"),styleMap:style,strategies:[new OpenLayers.Strategy.Fixed()]});';
+					$output .= 'map'.$id.'.addLayer(couche'.$id.');';
 				}
 				else
 				{
@@ -541,7 +542,7 @@ function openlayers_shortcode($attributs)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 6. CENTRAGE ET ZOOM
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	if($center_lat != '' AND $center_long != '' AND $center_zoom != '')
+	if($center_lat != '' AND $center_long != '' AND $zoom != '')
 	{
 		if($proj != '')
 			$output .= 'var center = new OpenLayers.LonLat('.$center_long.','.$center_lat.').transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
