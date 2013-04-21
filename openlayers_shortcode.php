@@ -550,7 +550,7 @@ function openlayers_shortcode($attributs)
 			$output .= 'var center = new OpenLayers.LonLat('.$center_long.','.$center_lat.');';
 		$output .= 'map'.$id.'.setCenter(center,'.$zoom.');';
 	}
-	else
+	else // to-do : sur quoi centrer si plusieurs URL chargées ?
 	{
 		$output .= 'map'.$id.'.zoomToExtent(couche'.$id.'.getDataExtent());';
 	}
