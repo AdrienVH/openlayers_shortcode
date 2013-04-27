@@ -125,8 +125,7 @@ function ols_add_menu()
 					echo '<div class="inside">';
 						echo '<p>Nom : <a href="http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode/" target="_blank">Openlayers Shortcode</a></p>';
 						echo '<p>Shortcode lié : [openlayers attr="val"]</p>';
-						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.2.1.7.zip">2.1.7</a> (20/04/2013)</p>';
-						echo '<p>Librairies JS : <a href="http://openlayers.org/" target="_blank">Openlayers</a> (2.12) + <a href="http://mapbox.com/wax/" target="_blank">Wax</a> (6.4.0)</p>';
+						echo '<p>Version : <a href="http://labs.adrienvh.fr/openlayers_shortcode/openlayers_shortcode.2.2.0.zip">2.2.0</a> (27/04/2013)</p>';
 					echo '</div>';
 				echo '</div>';
 				echo '<div class="postbox">'; // Bloc "Auteur"
@@ -221,7 +220,7 @@ function ols_add_menu()
 										echo '<th scope="row">Fond de carte<br /><b>tiles</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles">';
-												$vals = array('mapquest','mapquest_aerial','osm','bing','google','mapbox');
+												$vals = array('mapquest','mapquest_aerial','osm','bing','google','mapbox','stamen');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles'))
@@ -241,10 +240,10 @@ function ols_add_menu()
 										echo '</td>';
 									echo '</tr>';
 									echo '<tr valign="top">';
-										echo '<th scope="row">Couche à utiliser pour les fonds de carte Bing Maps et Google Maps<br /><b>tiles_layer</b></th>';
+										echo '<th scope="row">Couche à utiliser pour les fonds de carte Stamen, Bing Maps et Google Maps<br /><b>tiles_layer</b></th>';
 										echo '<td>';
 											echo '<select name="ols_tiles_layer">';
-												$vals = array('road','hybrid','aerial','terrain');
+												$vals = array('road','hybrid','aerial','terrain','toner','watercolor');
 												foreach($vals as $val)
 												{
 													if($val == get_option('ols_tiles_layer'))

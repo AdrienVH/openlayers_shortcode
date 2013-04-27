@@ -1,5 +1,6 @@
 div.ols_carte
 {
+	position:relative;
 	margin:0 0 15px 0;
 	padding:0;
 	border:none;
@@ -44,3 +45,39 @@ div.ols_carte .olControlAttribution a:hover
 {
 	text-decoration:underline;
 }
+
+/* TITRE ET SOUS-TITRE
+
+div.ols_carte dl.ols_titres
+{
+	position:absolute;
+	z-index:9999999;
+	margin:0;
+	padding:5px;
+	top:10px;
+	right:10px;
+	background-color:rgba(255,255,255,0.7);
+	border:1px solid grey;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+}
+
+div.ols_carte dl.ols_titres dt.titre
+{
+	margin:0;
+	padding:0;
+	font-family:Trebuchet MS;
+	font-size:12px;
+	font-weight:bold;
+}
+
+div.ols_carte dl.ols_titres dd.sous_titre
+{
+	margin:0;
+	padding:0;
+	font-family:Trebuchet MS;
+	font-size:11px;
+	font-style:italic;
+}
+*/

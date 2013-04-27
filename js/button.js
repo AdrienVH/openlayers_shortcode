@@ -1,20 +1,15 @@
+// Ajout d'un bouton à l'éditeur de texte TinyMCE (mode visuel)
 tinymce.create('tinymce.plugins.openlayers',
 {
-	init:function(ed,url)
+	init:function(editeur,urltojs)
 	{
-		ed.addButton('openlayers',
+		editeur.addButton('openlayers',
 		{
 			title:'Ajouter une carte Openlayers',
-			image:url+'/../img/logo.png',
-			onclick:function()
-			{
-				ed.selection.setContent('[openlayers attribut="valeur"]');
-			}
+			image:urltojs+'/../img/logo.png',
+			onclick:function(){editeur.selection.setContent('[openlayers attribut="valeur"]');}
 		})
 	},
-	createControl:function(n,cn)
-	{
-		return null;
-	}
+	createControl:function(n,cn){return null;}
 });
 tinymce.PluginManager.add('openlayers',tinymce.plugins.openlayers);

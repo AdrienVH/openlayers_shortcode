@@ -1,6 +1,6 @@
 #OPENLAYERS SHORTCODE - READ ME
 
-Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapQuest, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les librairies JS Openlayers (2.12), Wax (6.4.0) et Google Maps (3.x).
+Ce plugin Wordpress met à votre disposition un nouveau shortcode qui vous permet d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s'appuient sur plusieurs fonds de carte (OpenStreetMap, OpenCycleMap, OpenPisteMap, MapQuest, Stamen, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pouvez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin embarque les librairies Openlayers (2.12), Wax (6.4.0) et apelle Google Maps (3.x).
 
 Le shortcode à utiliser est : `[openlayers attribut="valeur"]`
 
@@ -23,11 +23,13 @@ Elle faut aussi appel à une autre librairie :
 
 ##Évolutions futures
 
-- Personnalisation de l’icône d'un marker, en indiquant l’URL d'une image par exemple
-- Possibilité de charger un fichier XLS/XLSX/CSV contenant des coordonnées
-- Amélioration des feuilles et propriétés CSS
-- Refonte du chargement des feuilles et propriétés CSS
-- Intégration d’autres fonds de carte (WMS avec tiles_url et tiles_proj, etc.)
+- Personnalisation de l'icône d'un marker, en indiquant l'URL d'une image par exemple
+- Possibilité de charger un fichier CSV contenant des coordonnées (ou une colonne WKT) (en cours de finalisation)
+- Refonte du chargement des feuilles CSS (une seule fois, dans le footer)
+- Possibilité d'avoir un titre et un sous-titre en haut à droite des cartes (en cours)
+- Intégration d'autres fonds de carte (WMS avec tiles_url et tiles_proj, etc.)
+- Ajout d'un bouton dans l'éditeur de texte (en cours, déjà présent en mode "visuel")
+...
 
 ##Contact
 

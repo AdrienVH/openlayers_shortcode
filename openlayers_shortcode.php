@@ -2,10 +2,10 @@
 /*
 Plugin Name: Openlayers Shortcode
 Plugin URI: http://blog.adrienvh.fr/plugin-wordpress-openlayers-shortcode
-Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui va vous permettre d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s’appuieront sur plusieurs fonds de carte (OpenStreetMap, MapQuest, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pourrez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin comprend les librairies JS Openlayers (2.12), Wax (6.4.0) et Google Maps (3.x).
+Description: Ce plugin Wordpress met à votre disposition un nouveau shortcode qui vous permet d'intégrer une ou plusieurs cartes OpenLayers à vos pages et articles Wordpress. Ces cartes s'appuient sur plusieurs fonds de carte (OpenStreetMap, OpenCycleMap, OpenPisteMap, MapQuest, Stamen, MapBox, Bing Maps, Google Maps). Sur ces cartes, vous pouvez faire apparaitre un ou plusieurs objets géographiques (points, lignes ou polygones). Pour fonctionner, le plugin embarque les librairies Openlayers (2.12), Wax (6.4.0) et apelle Google Maps (3.x).
 Author: Adrien Van Hamme
 Author URI: http://adrienvh.fr/
-Version: 2.1.7
+Version: 2.2.0
 */
 require_once('php/tools.php');
 require_once('php/admin.php');
@@ -23,6 +23,8 @@ function openlayers_shortcode($attributs)
 	'debug'			=> get_option('ols_debug'),
 	'width'			=> get_option('ols_width'),
 	'height'		=> get_option('ols_height'),
+	//'titre'		=> get_option('ols_titre'),
+	//'sous_titre'	=> get_option('ols_sous_titre'),
 	'zoom'			=> get_option('ols_zoom'),
 	'mode'			=> get_option('ols_mode'),
 	'tiles'			=> get_option('ols_tiles'),
@@ -37,6 +39,7 @@ function openlayers_shortcode($attributs)
 	'champ_wkt'		=> get_option('ols_champ_wkt'),
 	'url'			=> get_option('ols_url'),
 	'champ_url'		=> get_option('ols_champ_url'),
+	'csv'			=> get_option('ols_csv'),
 	'proj'			=> get_option('ols_proj'),
 	'center_lat'	=> get_option('ols_center_lat'),
 	'center_long'	=> get_option('ols_center_long'),
@@ -54,7 +57,17 @@ function openlayers_shortcode($attributs)
 	),$attributs));
 	$erreur = false;
 	$message = 'Les erreurs suivantes ont été rencontrées :';
-	$output = '<div id="ols_carte'.$id.'" class="ols_carte" style="width:'.$width.';height:'.$height.';"></div>';
+	$output = '<div id="ols_carte'.$id.'" class="ols_carte" style="width:'.$width.';height:'.$height.';">';
+	/*if($titre != '')
+	{
+		$output .=  '<dl class="ols_titres"><dt class="ols_titre">'.$titre.'</dt>';
+		if($sous_titre != '')
+		{
+			$output .=  '<dd class="ols_sous_titre">'.$sous_titre.'</dd>';
+		}
+		$output .=  '</dl>';
+	}*/
+	$output .=  '</div>';
 	$output .= '<script>';
 	$output .= 'var map'.$id.' = new OpenLayers.Map("ols_carte'.$id.'");';
 	$output .= 'var center = new OpenLayers.LonLat(0,0).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));';
@@ -66,14 +79,54 @@ function openlayers_shortcode($attributs)
 	if($tiles == 'mapquest') // Fond de carte MapQuest OSM
 	{
 		$output .= 'var tuiles = ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg","http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.jpg"];';
-		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles",tuiles,{attribution:"MapQuest, Open Street Map et leurs contributeurs, CC-BY-SA"});';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest OSM",tuiles,{attribution:"MapQuest, OpenStreetMap et leurs contributeurs, CC-BY-SA"});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
 	}
 	if($tiles == 'mapquest_aerial') // Fond de carte MapQuest Aerial
 	{
 		$output .= 'var tuiles = ["http://oatile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg","http://oatile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];';
-		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles",tuiles,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
+		$output .= 'var coucheMQ = new OpenLayers.Layer.OSM("MapQuest Aerial",tuiles,{attribution:"MapQuest, NASA/JPL-Caltech et U.S. Dpt. of Agric.,Farm Service Ag."});';
 		$output .= 'map'.$id.'.addLayer(coucheMQ);';
+	}
+	if($tiles == 'transport') // Fond de carte Open Cycle Map Public Transport
+	{
+		$output .= 'var tuiles = ["http://a.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png","http://b.tile2.opencyclemap.org/transport/${z}/${x}/${y}.png"];';
+		$output .= 'var couchePT = new OpenLayers.Layer.OSM("Open Cycle Map Public Transport",tuiles,{attribution:"Tiles courtesy of Andy Allan"});';
+		$output .= 'map'.$id.'.addLayer(couchePT);';
+	}
+	if($tiles == 'stamen' AND $tiles_layer != '') // Fonds de carte Stamen
+	{
+		if($tiles_layer == 'watercolor')
+		{
+			//$output .= 'var coucheST = new OpenLayers.Layer.Stamen("watercolor");';
+			//$output .= 'map'.$id.'.addLayer(coucheST);';
+			$output .= 'var tuiles = ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg","http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg","http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg"];';
+			$output .= 'var coucheST = new OpenLayers.Layer.OSM("Stamen Watercolor",tuiles,{attribution:"Stamen Design, OpenStreetMap et leurs contributeurs"});';
+			$output .= 'map'.$id.'.addLayer(coucheST);';
+		}
+		elseif($tiles_layer == 'toner')
+		{
+			//$output .= 'var coucheST = new OpenLayers.Layer.Stamen("toner");';
+			//$output .= 'map'.$id.'.addLayer(coucheST);';
+			$output .= 'var tuiles = ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.jpg","http://b.tile.stamen.com/toner/${z}/${x}/${y}.jpg","http://c.tile.stamen.com/toner/${z}/${x}/${y}.jpg"];';
+			$output .= 'var coucheST = new OpenLayers.Layer.OSM("Stamen Toner",tuiles,{attribution:"Stamen Design, OpenStreetMap et leurs contributeurs"});';
+			$output .= 'map'.$id.'.addLayer(coucheST);';
+		}
+		else
+		{
+			//$output .= 'var coucheST = new OpenLayers.Layer.Stamen("watercolor");';
+			//$output .= 'map'.$id.'.addLayer(coucheST);';
+			$output .= 'var tuiles = ["http://a.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg","http://b.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg","http://c.tile.stamen.com/watercolor/${z}/${x}/${y}.jpg"];';
+			$output .= 'var coucheST = new OpenLayers.Layer.OSM("Stamen Watercolor",tuiles,{attribution:"Stamen Design, OpenStreetMap et leurs contributeurs"});';
+			$output .= 'map'.$id.'.addLayer(coucheST);';
+			$message .= '<br />&bull; Vous n\'avez pas indiquée de couche Stamen valide à afficher (couche "watercolor" affichée par défaut)';
+		}
+	}
+	if($tiles == 'hillshade') // Fond de carte Open Piste Map (Hillshade)
+	{
+		$output .= 'var tuiles = ["http://tiles2.openpistemap.org/landshaded/${z}/${x}/${y}.png"];';
+		$output .= 'var coucheHS = new OpenLayers.Layer.OSM("Open Piste Map",tuiles,{attribution:"Map tiles and data by OpenPisteMap","tileOptions":{"crossOriginKeyword":null}});';
+		$output .= 'map'.$id.'.addLayer(coucheHS);';
 	}
 	if($tiles == 'mapbox' AND filter_var($tiles_url,FILTER_VALIDATE_URL)) // Fond de carte MapBox
 	{
@@ -143,9 +196,44 @@ function openlayers_shortcode($attributs)
 	{
 		$this_id = get_the_ID();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.7 CSV
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		if($csv != '' AND $champ_lat != '' AND $champ_long != '') // Si un fichier CSV est indiqué
+		{
+			if(($fichier = fopen($csv,'r')) != false)
+			{
+				// to-do : test de l'URL et de l'extension csv/txt
+				// to-do : Label
+				// Style
+				$output .= 'var defaultStyle = new OpenLayers.Style({pointRadius:'.$pointradius.',strokeWidth:'.$strokewidth.',strokeColor:"'.$strokecolor.'",strokeOpacity:'.$strokeopacity.',fillColor:"'.$fillcolor.'",fillOpacity:'.$fillopacity.',label:"${ols_label}",labelAlign:"lc",labelXOffset:'.$labeloffset.',fontFamily:"Trebuchet MS",fontWeight:"'.$fontweight.'",fontSize:"'.$fontsize.'"});';
+				$output .= 'var style = new OpenLayers.StyleMap({"default":defaultStyle});';
+				// Layer
+				$output .= 'var couche'.$id.' = new OpenLayers.Layer.Vector("Couche '.$id.'",{styleMap:style});';
+				while($ligne = fgetcsv($fichier,1024,','))
+				{
+					if($ligne[$champ_lat-1] != '' AND $ligne[$champ_long-1] != '')
+					{
+						$label = $ligne[$champ_label-1];
+						$output .= 'var entite = new OpenLayers.LonLat('.$ligne[$champ_long-1].','.$ligne[$champ_lat-1].');';
+						if($proj != '')
+							$output .= 'entite.transform(new OpenLayers.Projection("EPSG:'.$proj.'"),new OpenLayers.Projection("EPSG:3857"));';
+						$output .= 'var point = new OpenLayers.Geometry.Point(entite.lon, entite.lat);';
+						$output .= 'couche'.$id.'.addFeatures([new OpenLayers.Feature.Vector(point,{ols_label:"'.$label.'"})]);';
+					}
+				}
+				fclose($fichier);
+				$output .= 'map'.$id.'.addLayer(couche'.$id.');';
+			}
+			else
+			{
+				$erreur = true;
+				$message .= '<br />&bull; Le fichier CSV n\'a pas pu être chargé';
+			}
+		}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 2.1.2 LAT ET LONG
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if($lat != '' AND $long != '') // Si des coordonnées sont indiquées
+		elseif($lat != '' AND $long != '') // Si des coordonnées sont indiquées
 		{
 			// Label
 			if($champ_label == 'this_title')
@@ -569,6 +657,7 @@ function openlayers_shortcode($attributs)
 		$output .= '<!--';
 		$output .= '@import url("'.plugins_url().'/openlayers_shortcode/js/theme/default/style.css");';
 		$output .= '@import url("'.plugins_url().'/openlayers_shortcode/css/carto.css");';
+		$output .= '@import url("http://fonts.googleapis.com/css?family=Roboto+Condensed:300,700");';
 		$output .= '-->';
 		$output .= '</style>';
 	}

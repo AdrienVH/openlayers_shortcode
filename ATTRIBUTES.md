@@ -36,7 +36,9 @@ Listes des attributs disponibles avec le shortcode.
 
 - Utilité : Fond de carte
 - Valeur par défaut : `mapquest`
-- Valeurs acceptées : `mapquest` `mapquest_aerial` `osm` `bing` `google` et `mapbox`
+- Valeurs acceptées : `mapquest` `mapquest_aerial` `osm` `transport` `hillshade` `stamen` `bing` `google` et `mapbox`
+
+/!\ : `stamen` requiert de renseigner l'attribut "tiles_layer"
 
 /!\ : `bing` requiert de renseigner les attributs "tiles_key" et "tiles_layer"
 
@@ -60,7 +62,7 @@ Listes des attributs disponibles avec le shortcode.
 
 - Utilité : Certains fonds de carte (attribut "tiles") requièrent de renseigner une couche en particulier (`bing` ou `google` par ex.)
 - Valeur par défaut :
-- Valeurs acceptées : `road` `hybrid` `aerial` (couches proposées par Bing Maps et Google Maps) `terrain` (couche proposée par Google Maps)
+- Valeurs acceptées : `road` `hybrid` `aerial` (couches proposées par Bing Maps et Google Maps) `terrain` (couche proposée par Google Maps) `road` `hybrid` (couches proposées par Stamen Design)
 
 ##lat
 

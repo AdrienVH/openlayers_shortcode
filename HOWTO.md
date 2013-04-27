@@ -27,21 +27,29 @@ Vous pouvez choisir le fond de carte de vos cartes en renseignant l'attribut "ti
 
 - `[openlayers tiles="osm"]` : Fond de carte OpenStreetMap original
 
-Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
+- `[openlayers tiles="transport"]` : Fond de carte Public Transport d'Open Cycle Map
+
+- `[openlayers tiles="hillshade"]` : Fond de carte du relief d'Open Piste Map
+
+- `[openlayers tiles="stamen" tiles_layer="..."]` : Fond de carte OSM de Stamen Design
+
+Pour utiliser les fonds de carte Stamen vous devez en plus indiquer la couche désirée (`watercolor` ou `toner`) dans l'attribut "tiles_layer".
 
 - `[openlayers tiles="bing" tiles_key="..." tiles_layer="..."]` : Fond de carte Bing Maps
 
-Si vous connaissez d'autres fonds de carte ouverts/libres, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
+Pour utiliser les fonds de carte Bing Maps vous devez en plus indiquer votre clef d'API dans l'attribut "tiles_key" et la couche désirée (`road` `hybrid` ou `aerial`) dans l'attribut "tiles_layer".
 
 - `[openlayers tiles="google" tiles_layer="..."]` : Fond de carte Google Maps
 
-Pour utiliser les fonds de carte Google Maps vous devez en plus indiquer la couche désirée (`road`, `hybrid` `aerial` ou `terrain`) dans l'attribut "tiles_layer".
+Pour utiliser les fonds de carte Google Maps vous devez en plus indiquer la couche désirée (`road` `hybrid` `aerial` ou `terrain`) dans l'attribut "tiles_layer".
 
 *Attention : les niveaux de zoom 17 à 22 inclus ne sont pas disponibles avec l'utilisation de la couche "terrain" !*
 
 - `[openlayers tiles="mapbox" tiles_url="..."]` : Fond de carte hébergé par votre compte [Mapbox](http://mapbox.com/) personnel
 
 Pour utiliser une de fond de carte Mapbox, vous devez en plus indiquer l'URL (ex : tiles.mapbox.com/v3/pseudo.idcarte.jsonp) du fichier JSONP servi par Mapbox (dans l'attribut "tiles_url").
+
+Si vous connaissez d'autres fonds de carte, n'hésitez pas à [me les proposer](https://github.com/AdrienVH/openlayers_shortcode/blob/master/README.md#contact) !
 
 ##2.1 Source de donnée : mode "this"
 
